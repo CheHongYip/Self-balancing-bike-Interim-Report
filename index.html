@@ -237,12 +237,63 @@
           </sl-tree-item>
         </sl-tree-item>
 
+        <!-- Appendix A -->
+        <sl-tree-item expanded>
+          <a href="#appendix-a">Appendix A: Interview Responses</a>
+          <sl-tree-item>
+            <a href="#appendix-a-bike-users">Bike users</a>
+          </sl-tree-item>
+          <sl-tree-item>
+            <a href="#appendix-a-red-dot">Red Dot Mobility</a>
+          </sl-tree-item>
+        </sl-tree-item>
+
+        <!-- Appendix B -->
+        <sl-tree-item expanded>
+          <a href="#appendix-b">Appendix B: Industry Landscape</a>
+          <sl-tree-item>
+            <a href="#appendix-b-lit-motors">Lit Motors C1</a>
+          </sl-tree-item>
+          <sl-tree-item>
+            <a href="#appendix-b-honda-riding-assist">Honda Riding Assist</a>
+          </sl-tree-item>
+          <sl-tree-item>
+            <a href="#appendix-b-yamaha-amsas">Yamaha AMSAS</a>
+          </sl-tree-item>
+          <sl-tree-item>
+            <a href="#appendix-b-piaggio-mp3">Piaggio MP3</a>
+          </sl-tree-item>
+        </sl-tree-item>
+
+        <!-- Appendix C -->
+        <sl-tree-item expanded>
+          <a href="#appendix-c">Appendix C: Concept Selection</a>
+          <sl-tree-item>
+            <a href="#appendix-c-selection-rationale">Selection rationale</a>
+          </sl-tree-item>
+          <sl-tree-item>
+            <a href="#appendix-c-model-derivation">Model derivation</a>
+          </sl-tree-item>
+        </sl-tree-item>
+
+        <!-- Appendix D -->
+        <sl-tree-item expanded>
+          <a href="#appendix-d">Appendix D: Hardware and Software</a>
+          <sl-tree-item>
+            <a href="#appendix-d-hardware">Hardware</a>
+          </sl-tree-item>
+          <sl-tree-item>
+            <a href="#appendix-d-software">Software</a>
+          </sl-tree-item>
+        </sl-tree-item>
+
         <!-- References -->
         <sl-tree-item>
           <a href="#references">References</a>
         </sl-tree-item>
       </sl-tree>
     </div>
+
 
 
     <sl-divider></sl-divider>
@@ -290,13 +341,13 @@
           Red Dot Mobility is a Singapore homegrown brand and electric motorcycle startup, specialising in electric motor controller design and manufacturing with a focus on high performance. Their suite of products also include EV kits ranging from 2–5 kW<sup>[4]</sup>.
         </p>
 
-        <!--
+        
         <image-component 
           tag="fig-3-rdm-3kw-kit"
           source="assets/figure3-rdm-3kw-kit.png"
           subtitle="Figure 3: 3&nbsp;kW EV kit from Red Dot Mobility<sup>[4]</sup>"
         ></image-component>
-        -->
+       
       </div>
 
       <!-- General introduction paragraphs -->
@@ -998,6 +1049,13 @@
         ></image-component>
         -->
 
+        <!--
+        <image-component 
+          tag="test-1-steps"
+          source="assets/test1-steps.png"
+        ></image-component>
+        -->
+
         <h5>Results</h5>
         <p>
           CG height from ground/mm: 55 (45% of bike’s height)
@@ -1037,6 +1095,13 @@
         ></image-component>
         -->
 
+        <!--
+        <image-component 
+          tag="test-2a-steps"
+          source="assets/test2a-steps.png"
+        ></image-component>
+        -->
+
         <h5>Results</h5>
 
         <!--
@@ -1070,6 +1135,13 @@
           tag="fig-30-test-2b-physical-setup"
           source="assets/fig-30-test-2b-physical-setup.png"
           subtitle="Figure 30: Physical set-up for Test 2B"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component 
+          tag="test-2b-steps"
+          source="assets/test2b-steps.png"
         ></image-component>
         -->
 
@@ -1110,6 +1182,13 @@
           tag="fig-33-test-2c-physical-setup"
           source="assets/fig-33-test-2c-physical-setup.png"
           subtitle="Figure 33: Physical set-up for Test 2C"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component 
+          tag="test-2c-steps"
+          source="assets/test2c-steps.png"
         ></image-component>
         -->
 
@@ -1263,6 +1342,299 @@
 
     </div>
 
+    <div id="appendix-a">
+      <h2>Appendix A: Interview Responses</h2>
+
+      <div id="appendix-a-bike-users">
+        <h3>Bike users</h3>
+        <ul>
+          <li>Top-heavy or heavy bikes tip easily at crawl speeds; center of gravity and rider stature matter.</li>
+          <li>Front brake during slow, turning manoeuvres causes instant tip-overs.</li>
+          <li>Uneven or slippery surfaces (gravel, potholes, camber, slopes) trigger foot slips and falls.</li>
+          <li>Start/stop anxiety and stalls at lights or mid-intersection; once lean starts, riders can’t save heavy bikes.</li>
+          <li>Reverse parking and tight U-turns frequently cause tip-overs.</li>
+          <li>Sudden disturbances (truck noise, passenger mounting) cause split-second delays leading to tip-overs.</li>
+          <li>Ergonomic constraints (tall seat or fairing blocking feet) and rider stature reduce ability to catch the bike at stops.</li>
+          <li>Fatigue, nerves, and lack of confidence increase low-speed errors; riders want predictable, smooth help.</li>
+        </ul>
+      </div>
+
+      <div id="appendix-a-red-dot">
+        <h3>Red Dot Mobility</h3>
+        <ul>
+          <li>Wants a reliable self-balancing system that does not modify the balance and look of the bike too much.</li>
+          <li>Notes that heavy sports bikes face tipping issues more frequently due to higher weight and center of gravity.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="appendix-b">
+      <h2>Appendix B: Industry Landscape</h2>
+
+      <div id="appendix-b-lit-motors">
+        <h3>Lit Motors C1</h3>
+        <p>
+          The Lit Motors C1 enclosed two-wheeler uses dual CMGs to generate large roll-stabilising torque so the vehicle can 
+          stand by itself and resist lateral disturbances. It is able to generate a large gyro torque of 1,763&nbsp;Nm,
+          <sup>[15]</sup> but it requires a purpose-built chassis to house its high-speed flywheels and control hardware, 
+          making it non-retrofit to a typical motorcycle.
+        </p>
+        <p>
+          It has been in development since 2012, when concepts and early prototypes were announced, and recently in 2025 it 
+          has unveiled a functioning prototype.<sup>[15]</sup>
+        </p>
+      </div>
+
+      <div id="appendix-b-honda-riding-assist">
+        <h3>Honda Riding Assist</h3>
+        <p>
+          Honda’s Riding Assist keeps a conventional two-wheeler upright at rest and low speed without gyroscopes. The 
+          Gen-1 (2017) model used steer-by-wire and a variable-trail front end, with an ECU that enabled rapid micro-corrections 
+          allowing the bike to self-stand and move at walking speed independent of a rider.<sup>[16]</sup>
+        </p>
+        <p>
+          Its Gen-2 (2021) model utilised a four-link oscillating mechanism between the frame and rear wheel, improving rider 
+          cooperation while preserving low-speed and stationary assistance.<sup>[16]</sup> It required significant chassis 
+          integration for the actuated steering and rear four-link mechanism, making it a heavy retrofit.
+        </p>
+        <p>
+          Since its debut in 2017, Honda’s Riding Assist technology is still undergoing development with no production date 
+          announced.<sup>[16]</sup>
+        </p>
+      </div>
+
+      <div id="appendix-b-yamaha-amsas">
+        <h3>Yamaha AMSAS</h3>
+        <p>
+          The Yamaha AMSAS combines a front-wheel actuator and steering actuator to achieve active control from standstill 
+          to around 5&nbsp;km/h with a 6-axis IMU sensor.<sup>[11]</sup> It is designed to be applicable to existing bikes 
+          without frame modifications, preserving conventional chassis geometry.
+        </p>
+        <p>
+          Revealed in 2022, its current status is a prototype under development with no production model announced as of 
+          2025.<sup>[11]</sup>
+        </p>
+      </div>
+
+      <div id="appendix-b-piaggio-mp3">
+        <h3>Piaggio MP3</h3>
+        <p>
+          The Piaggio MP3 uses an articulated quadrilateral front suspension with electro-hydraulic Roll-Lock to hold the 
+          bike’s front end stable at stops so riders do not have to put a foot down. Roll-Lock engages only under defined 
+          conditions such as closed throttle with speed lower than 10&nbsp;km/h and engine at less than 2,500&nbsp;rpm, and 
+          releases when moving off.<sup>[17]</sup>
+        </p>
+        <p>
+          Although it offers great low-speed maneuverability and stop-go stability, it requires a dual-front-wheel chassis, 
+          so retrofitting onto a conventional two-wheeler is not possible.
+        </p>
+        <p>
+          First launched in 2006, the Piaggio MP3 has undergone multiple refreshes, with the latest full redesign, the MP3 
+          530&nbsp;HPE, launched in 2022.<sup>[18]</sup>
+        </p>
+      </div>
+    </div>
+
+    <div id="appendix-c">
+      <h2>Appendix C: Concept Selection</h2>
+
+      <div id="appendix-c-selection-rationale">
+        <h3>Selection rationale</h3>
+
+        <h4>Sensing</h4>
+        <p>
+          Only using an IMU is insufficient for feedback control. The addition of an encoder feedback enables a cascaded 
+          servo architecture with a high-bandwidth inner torque loop and a velocity loop for the outer balance loop, improving 
+          damping and cutting phase lag in the overall response.<sup>[22]</sup>
+        </p>
+        <p>
+          A magnetometer was deemed unnecessary, as yaw angle estimation is not required for single-axis roll 
+          balancing<sup>[23]</sup> and magnetometers are prone to noise from other nearby motors and metallic 
+          frames.<sup>[24]</sup>
+        </p>
+
+        <h4>Control</h4>
+        <p>
+          The LQR requires accurate system modelling and higher computational effort,<sup>[26]</sup> while PID control offers 
+          a simpler and more tunable solution that can achieve similar stability margins for a single-axis inverted pendulum 
+          system.<sup>[27]</sup> Moreover, PID tuning can be performed experimentally on the prototype without requiring a 
+          full system identification process.
+        </p>
+        <p>
+          Although MPC provides optimal performance under constraints, its computational overhead and higher latency make it 
+          unsuitable for low-cost microcontrollers used in this project.<sup>[28]</sup> Therefore, PID control represents the 
+          most appropriate choice, offering fast torque response, strong damping, and low complexity.
+        </p>
+
+        <h4>Actuation</h4>
+        <p>
+          While BDC motors are simpler to control, they suffer from slower response, higher electrical noise, and mechanical 
+          wear due to brushes, making them less suitable for continuous real-time balance correction. The BLDC system’s 
+          slightly higher cost and control complexity due to ESC requirements are justified by its reliability, 
+          responsiveness, and long-term stability in continuous operation.<sup>[30]</sup>
+        </p>
+
+        <h4>Power</h4>
+        <p>
+          Compared to a non-isolated buck converter, an isolated DC-DC converter significantly improves noise immunity and 
+          fault containment. These advantages are crucial, as electromagnetic interference from the main drive inverter could 
+          introduce noise into the IMU and control signals, degrading stability performance.<sup>[31]</sup> Although isolated 
+          converters are slightly bulkier and more expensive, their enhanced safety and robustness justify the trade-off.
+        </p>
+        <p>
+          A small auxiliary battery pack can be integrated to supply brief peak currents and smooth transient voltage 
+          fluctuations during torque spikes.<sup>[32]</sup> However, under specified operating limits, correct DC-DC selection 
+          and sizing using appropriate current limits, output and transient protection can meet those peaks without an 
+          auxiliary pack, reducing cost and complexity while preserving robustness.<sup>[33]</sup>
+        </p>
+
+        <h4>Mechanism</h4>
+        <p>
+          Gyroscopic systems provide active stabilisation via high-speed spinning rotors with a gimbal, but their high-speed 
+          rotors consume large amounts of power to maintain balance and precision.<sup>[34]</sup>
+        </p>
+        <p>
+          Steer assist mechanisms self-balance by realigning the base of support under its CG by applying corrective steering 
+          and thrust input. Although they necessitate relatively fewer changes to the bike frame, their corrective method may 
+          conflict with user inputs, leading to loss of control.<sup>[16]</sup>
+        </p>
+        <p>
+          The IWP is comparatively mechanically simple and compact. It requires little to no change to the external geometry, 
+          preserving the bike’s two-wheeler configuration. Its control behaviour is well-studied, making it an ideal platform 
+          for developing and validating low-speed self-balancing control systems.<sup>[35]</sup>
+        </p>
+      </div>
+
+      <div id="appendix-c-model-derivation">
+        <h3>Model derivation</h3>
+
+        <h4>DC Model</h4>
+        <p>
+          Applying Kirchhoff’s second law with resistance and inductance represented by R<sub>a</sub> and L<sub>a</sub> 
+          respectively:
+        </p>
+
+        <!--
+        <image-component 
+          tag="eq-4-kirchhoffs-second-law"
+          source="assets/eq-4-kirchhoffs-second-law.png"
+          subtitle="Equation 4: Kirchhoff’s second law"
+        ></image-component>
+        -->
+
+        <p>
+          Assuming the effect of inductance is very small (L<sub>a</sub> ≪ R<sub>a</sub>), and relating back-EMF to the angular velocity ϕ by the back-EMF constant K<sub>b</sub>,
+        </p>
+
+        <!--
+        <image-component 
+          tag="bef-eqn-5"
+          source="assets/bef-eqn-5.png"
+        ></image-component>
+        -->
+
+        <p>
+          we get:
+        </p>
+
+        <!--
+        <image-component 
+          tag="eq-5-kirchhoffs-law-without-inductance"
+          source="assets/eq-5-kirchhoffs-law-without-inductance.png"
+          subtitle="Equation 5: Kirchhoff’s second law neglecting inductance"
+        ></image-component>
+        -->
+
+        <p>
+          Finally, motor torque τ is related to armature current i<sub>a</sub> by the motor torque constant K<sub>t</sub>:
+        </p>
+
+        <!--
+        <image-component 
+          tag="eq-1-torque-current-relation"
+          source="assets/eq-1-torque-current-relation.png"
+          subtitle="Equation 1: Torque–current relation"
+        ></image-component>
+        -->
+
+        <h4>IWP Model</h4>
+        <p>
+          In order to form the mathematical model of the system, we use the Euler–Lagrange equation.
+        </p>
+
+        <!--
+        <image-component 
+          tag="bef-eqn-6"
+          source="assets/bef-eqn-6.png"
+        ></image-component>
+        -->
+
+        <p>
+          Where q<sub>i</sub> are the generalised coordinates, and the Rayleigh dissipation function is given by 
+        </p>
+
+        <!--
+        <image-component 
+          tag="eq-6-euler-lagrange"
+          source="assets/eq-6-euler-lagrange.png"
+          subtitle="Equation 6: Euler–Lagrange equation with dissipated energy"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component 
+          tag="eq-7-ke-system"
+          source="assets/eq-7-ke-system.png"
+          subtitle="Equation 7: KE of the system, including translational and rotational parts"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component 
+          tag="eq-8-pe-system"
+          source="assets/eq-8-pe-system.png"
+          subtitle="Equation 8: PE of the system"
+        ></image-component>
+        -->
+
+        <p>
+          Working:
+        </p>
+
+        <!--
+        <image-component 
+          tag="working-eqns"
+          source="assets/working-eqns.png"
+        ></image-component>
+        -->
+
+
+        <p>
+          Substituting the torque relation (Equation 1) into the dynamic equations,
+        </p>
+
+        <!--
+        <image-component 
+          tag="sub-eqn-1-in"
+          source="assets/sub-eqn-1-in.png"
+        ></image-component>
+        -->
+
+        <p>
+          During self-balancing, the bike’s tilt angle only oscillates within the range of approximately ±3°, hence sin(θ) ≈ θ is a valid approximation.<sup>[6]</sup>
+        </p>
+
+        <!--
+        <image-component 
+          tag="eq-2-mathematical-model-system"
+          source="assets/eq-2-mathematical-model-system.png"
+          subtitle="Equation 2: Mathematical model of system"
+        ></image-component>
+        -->
+      </div>
+    </div>
+
+    
     <div id="references" class="references">
       <sl-divider></sl-divider>
       <h2>References</h2>
