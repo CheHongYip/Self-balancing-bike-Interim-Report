@@ -313,25 +313,25 @@
           Governments across APAC are phasing out ICE vehicles, while drivers like rising fuel costs, environmental concerns and technological advancements are accelerating the shift toward electrification. The region’s E2W market (e-scooters and e-motorbikes) valued at USD 15.5 billion in 2024 and is expected to reach USD 56.8 billion by 2032, growing at a CAGR of 17.6%, with over 15 million E2W expected on Asian roads within the next few years<sup>[1]</sup>.
         </p>
 
-        <!--
+        
         <image-component 
           tag="fig-1-apac-e2w-market"
           source="assets/figure1-apac-e2w-market.png"
           subtitle="Figure 1: APAC E2W Market 2024–2032<sup>[1]</sup>"
         ></image-component>
-        -->
+       
 
         <p>
           As the market rapidly grows from 9 million annual unit sales in APAC in 2024<sup>[2]</sup> to a projected 83 million by 2030,<sup>[3]</sup> there is an increasing focus on battery technology, safety, and comfort features in e-bikes by OEMs and manufacturers, especially in China and India<sup>[2][3]</sup> to adapt to shifting demand by consumers.
         </p>
 
-        <!--
+        
         <image-component 
           tag="fig-2-e2w-sales-projection"
           source="assets/figure2-e2w-sales-projection.png"
           subtitle="Figure 2: E2W sales projection by region<sup>[3]</sup>"
         ></image-component>
-        -->
+       
       </div>
 
       <!-- 1.2 Industry Partner: Red Dot Mobility -->
@@ -1633,6 +1633,237 @@
         -->
       </div>
     </div>
+
+    
+    <div id="appendix-d">
+      <h2>Appendix D: Hardware and Software</h2>
+
+      <div id="appendix-d-hardware">
+        <p>Hardware: </p>
+        <p>Power Subsystem</p>
+        <ul>
+          <li>Primary Energy Source</li>
+        </ul>
+        <p>A 3-cell lithium-ion polymer battery pack provides the main DC b....6 V (4.2 V/cell), avoiding deep discharge below 3.0 V/cell<sup>[45]</sup>.</p>
+        <ul>
+          <li>DC–DC Conversion</li>
+        </ul>
+        <p>Boost converter: Steps up battery voltage from 12V to 20V, and if a higher bus voltage is required by the chosen BLDC to reach target reaction-wheel speed.</p>
+        <p>Buck converter (MP1584): Steps the battery down to 5V for servo and auxiliary electronics; rated up to 3 A with wide input range and well-characterized behavior<sup>[46]</sup>.</p>
+        <p>LDO (RT919): Generates 3.3 V for the MCU with ultra-low noise output suitable for its peripherals and precision sensors<sup>[47]</sup>.</p>
+        <p>Control</p>
+        <ul>
+          <li>MCU</li>
+        </ul>
+        <p>STM32F103C8T6 (Cortex-M3 @ 72 MHz) with 64 KB Flash/20 KB SRAM, timers for PWM/IC, I²C/SPI/UART, and USB FS for debug<sup>[48]</sup>. The firmware uses STM32 HAL atop ARM CMSIS for portable peripheral access, easing timer, UART, and I²C bring-up and enabling quicker iteration on control code<sup>[49]</sup>.</p>
+        <p>Sensing</p>
+        <ul>
+          <li>IMU</li>
+        </ul>
+        <p>MPU-6050 (6-axis; 3-axis gyro and 3-axis accel) provides roll angle/roll-rate signals and supports I²C up to 400 kHz; VLOGIC allows clean 3.3 V interfacing<sup>[50]</sup>.</p>
+        <ul>
+          <li>Rotary encoder</li>
+        </ul>
+        <p>A dual-channel optical incremental encoder outputting A and B square-waves in 90° phase offset encodes direction and enables edge-counting for position and speed measurement<sup>[53]</sup>.</p>
+        <p>Actuation</p>
+        <ul>
+          <li>Reaction-Wheel</li>
+        </ul>
+        <p>12V BLDC Motor + ESC: A three-phase BLDC drives the reaction wheel through a dedicated ESC.</p>
+        <ul>
+          <li>Steering</li>
+        </ul>
+        <p>A standard RC servo handles steering. Typical operating voltage is 4.8V nominal (3V to 6V DC) from the 5V rail. It has an operation speed of 0.1sec /60degree<sup>[51]</sup>.</p>
+        <ul>
+          <li>Forward/reverse drive</li>
+        </ul>
+        <p>A miniature 12V N20 geared motor allows forward/backward motion<sup>[52]</sup>.</p>
+        <p>User communication</p>
+        <ul>
+          <li>Bluetooth</li>
+        </ul>
+        <p>A standard Bluetooth module provides serial telemetry and user enabled control of the steering and drive.</p>
+        <ul>
+          <li>USB-UART</li>
+        </ul>
+        <p>For wired logging and parameter tuning, the design uses a USB-UART bridge.</p>
+        <ul>
+          <li>OLED</li>
+        </ul>
+        <p>The OLED provides essential runtime data such as system state, roll angle and battery voltage indicators.</p>
+      </div>
+
+      <div id="appendix-d-software">
+        <h3>Software: Frameworks and Models</h3>
+
+        <ul>
+          <li>Mahony Filter: Key features: PI controller with tunable gains Kp (proportional), Ki (integral). Can operate with IMU (gyro+acc) or MARG (gyro+acc+mag) configurations Computationally efficient, suitable for embedded hardware such as drones and micro-UAVs Produces continuous quaternion updates, which can then be converted to Euler angles or rotation matrices Mathematically, the quaternion update uses: qt+1=qt+12 qt⊗(ω_corrected) Δtq t+1​=q t+ 21q t⊗(ω_corrected)Δt, where ω_corrected is the gyroscope reading corrected by the error derived from accelerometer (and magnetometer) measurements, and ⊗ denotes the Hamilton product.</li>
+          <li>Quaternion Filters: A quaternion filter refers to any filter (Mahony, Madgwick, Kalman) that represents orientation in quaternions rather than Euler angles or rotation matrices. Advantages of quaternions: Avoid gimbal lock Efficient representation of rotations in 3D (SO(3)) Simplifies numerical integration of angular velocities Quaternion-based orientation filters perform the following: Integrate gyroscope readings over time to propagate orientation Compare predicted quaternion with measured reference vectors (gravity, magnetic field) Apply feedback correction (proportional/integral or Kalman gain) Normalize the quaternion to maintain unit length Both Mahony and VQF (Versatile Quaternion Filter) are examples of quaternion filters designed for IMU fusion.</li>
+          <li>Usage with an IMU An IMU provides: a = accelerometer measurements ω = gyroscope measurements optional m = magnetometer measurements Workflow for orientation estimation using the Mahony filter: Normalize accelerometer and magnetometer vectors. Compute estimated gravity/magnetic vectors from current quaternion. Calculate error vector: cross product of measured vs predicted. Apply PI correction to the gyroscope readings: ω_corrected = ω + KP(e) + Ki∫(e) dt [Bounds: t and 0] Integrate quaternion using corrected angular rate. Normalize quaternion and optionally convert to Euler angles or rotation matrix. Optional features: Magnetometer-free 6D mode: uses gyro+acceleration only Full 9D mode: uses gyro+acc+mag for improved heading (yaw) accuracy Bias estimation: integral term compensates for gyro drift</li>
+          <li>Practical Use Cases Micro-UAVs / Quadcopter autopilot: Stabilizes vehicle attitude based on IMU IMU-based motion tracking: Wearables, human biomechanics Sensor fusion pre-processing: Feeding filtered orientation to navigation or control loops</li>
+        </ul>
+
+        <p>Example pseudo-code (IMU-only, Mahony filter): orientation = Mahony(Kp=1.0, Ki=0.3) q = [1, 0, 0, 0] # initial quaternion for t in range(num_samples): q = orientation.updateIMU(q, gyro=gyro_data[t], acc=acc_data[t]) This routine iteratively outputs the estimated orientation quaternion for each timestamp.</p>
+
+        <p>In summary: The Mahony filter is a specific quaternion-based complementary filter used to compute accurate orientation from IMU sensors in real-time, providing bias correction and sensor fusion. Quaternion filters provide a mathematically robust way to represent, integrate, and fuse 3D rotations when working with IMUs.</p>
+
+        <h3>Code: </h3>
+
+        <h4>Stage 1: Boot and Firmware start-up (main.c)</h4>
+        <p>This stage configures the rc-bike’s firmware at startup. At reset, the MCU initializes the HAL, clocks, and drivers, then starts the PWM channels and the sensing/control stack before giving control to FreeRTOS. This stage configures sensing (IMU), actuation (PWM/servo), and timing (FreeRTOS + timers) so later stages can run deterministically at the desired rate of 5ms. </p>
+
+        <ul>
+          <li>Initialise HAL and Clock at start-up</li>
+          <li>Initialise peripherals (GPIO, DMA, ADC, UART, timers)</li>
+          <li>Start PWM outputs for motor drivers: </li>
+          <li>TIM3 CH1 (flywheel) -&gt; Balance mechanism</li>
+          <li>TIM3 CH2 (aux motor) -&gt; Front/Back Motion</li>
+          <li>TIM1 CH1 (steering servo) -&gt; Steering </li>
+          <li>Initialise soft-I²C (bit-banged) and MPU6050</li>
+          <li>Soft-I²C: Enables communication between MPU6050 and code interface </li>
+          <li>MPU6050: IMU hardware (obtains raw angle, angular velocity and speed data)</li>
+          <li>Signal-Processing Setup and UI</li>
+          <li>Initialise FreeRTOS kernel (after startup, code sequence moves into FreeRTOS program)</li>
+        </ul>
+
+        <h4>Stage 2: Real-time Loop Orchestration (FreeRTOS.c/.h)</h4>
+        <p>FreeRTOS refers to the RC-bike’s Real-Time Operating System. In this stage, FreeRTOS basically executes a series of 6 tasks continuously in a loop of 5ms until the bike is switched off. Of these 6 tasks, the RC-Bike’s self-balancing mechanism/pipeline is implemented in StartSensorSampleTask and runs every 5 ms (200 Hz). In each iteration the firmware performs: acquisition → filtering → state estimation → feedback readout → cascade control → actuation → calibration. </p>
+        <p>Per-tick sequence (exact order; 1 tick = 1kHz):</p>
+
+        <ul>
+          <li>Read and obtain raw accelerometer and gyroscope data from sensors: </li>
+          <li>Gyroscope data Unit Conversion: gyro raw → deg/s and rad/s. </li>
+          <li>Accelerometer filtering (IIR) and unit conversion to g via acc_iir_lpf and get_acc_g.</li>
+          <li>Attitude estimation: mahony_update(...) fuses gyro (rad/s) and accel (g), then Matrix_ready() refreshes rotation matrices from the updated quaternion.</li>
+          <li>Feedback from flywheel encoder: readEncoderValue() returns Δcounts/5 ms.</li>
+          <li>Cascade PID controller: _controller_perform() computes torque; _controller_output() applies safety and writes PWM/dir.</li>
+          <li>Gyro bias calibration (slow background): gyro_cal(...). Then osDelay(5).</li>
+        </ul>
+
+        <h4>Stage 3: Sensing and State Estimation (IMU, MPU6050, IMATH, Filter)</h4>
+        <p>This stage encompasses data sensing and preliminary processing. The MPU6050 sensor reads raw data every tick (5ms) for 3 parameters: angle, speed (linear velocity), angular velocity. These 3 raw data categories undergo processing (unit conversion, filtering) and are then held in vector structures (matrices) for historical reference for feedback control. </p>
+
+        <h5>Stage 3a: MPU6050 layer (mpu6050.c/.h) — raw data → clean, scaled signals</h5>
+        <p>Init (once):</p>
+        <ul>
+          <li>Reset → wake, SMPLRT_DIV=0 (1 kHz base with DLPF), CONFIG=0x03 (≈44 Hz acc / 42 Hz gyro), ±2000 dps gyro, ±8 g accel.</li>
+        </ul>
+
+        <p>Each 5 ms tick:</p>
+        <ul>
+          <li>Read raw accel and gyro registers (bit-banged I²C).</li>
+          <li>Subtract persistent gyro_offset (from Flash or live calibration).</li>
+          <li>Low-pass filter: 2-pole Butterworth (e.g., gyro ≈30 Hz, accel ≈5 Hz) to kill sensor buzz while keeping body dynamics.</li>
+          <li>Convert to engineering units: deg/s (and rad/s) for gyro; g for accel.</li>
+        </ul>
+
+        <p>Outputs used elsewhere</p>
+        <ul>
+          <li>Mpu.rad_s (rad/s) and Mpu.acc_g (g) → Mahony filter input.</li>
+          <li>Mpu.deg_s (deg/s) → used to integrate yaw and as rate feedback in the inner loop.</li>
+        </ul>
+
+        <h5>Stage 3b: IMU fusion (imu.c/.h) — Mahony AHRS (quaternion based)</h5>
+        <p>This step focuses on processing the data obtained from the MPU6050 sensor by parsing the accelerometer and gyroscope data (both in 3-axis, so 6 data types total) through a Mahoney Filter (a type of Quaternion filter). These datasets are contained in a DCM (Direction Cosine Matrix), and a DCM_Transposed version. This yields fast, low-drift roll and roll-rate estimates for control.</p>
+
+        <p>Each 5 ms tick (mahony_update)</p>
+        <ul>
+          <li>Normalize accel to unit vector (gravity direction).</li>
+          <li>Predict gravity in body frame from last attitude (Mat.DCM_T 3rd column).</li>
+          <li>Error = a × v̂ → a small rotation vector.</li>
+          <li>PI correction on gyro (kp=0.5, ki=1e-4).</li>
+          <li>Integrate quaternion with corrected gyro (Ts=0.005 s), renormalize.</li>
+          <li>Convert to Euler: roll, pitch (deg); yaw is integrated from Mpu.deg_s.z.</li>
+          <li>Refresh rotation matrices (Matrix_ready()).</li>
+        </ul>
+
+        <h5>Stage 3c: Math and filters (libraries used by 3a/3b)</h5>
+        <p>imath.c: invSqrt() for accel/quaternion normalization; small vector/set helpers used in calibration and controller clamps.</p>
+        <p>filter.c: generic 2-pole Butterworth LPF used by mpu6050.c to pre-condition accel/gyro.</p>
+
+        <h4>Stage 4: Wheel Motion Feedback and Timing (Encoder; Timers)</h4>
+        <p>This stage focuses on measuring the spin rate and direction of the flywheel motor every control tick (5 ms). The controller uses this to keep the flywheel operating near its mid-speed so it doesn’t “wind up.” This stage relies on a quadrature encoder wired to TIM2 (time counter; controls flywheel speed) to process the data every 5ms. This data will feed the outer velocity loop and act as feedback for the flywheel to optimise its spin rate and direction and return the bike upright as quickly as possible. </p>
+
+        <p>Data going in to the controller (every 5 ms):</p>
+        <ul>
+          <li>Velocity loop feedback ← encoderINFO.mainNumberValue (signed counts/5 ms).</li>
+          <li>Angle loop feedback ← -att.rol (deg) from IMU fusion.</li>
+          <li>Rate loop feedback ← -Mpu.deg_s.y (deg/s) from the IMU.</li>
+        </ul>
+
+        <p>Controller cascade (inside _controller_perform()):</p>
+        <ul>
+          <li>Velocity PID (setpoint 0) uses the encoder delta to produce a gentle desired angle (keeps the flywheel from “winding up”).</li>
+          <li>Angle P drives roll toward that angle → outputs desired roll-rate.</li>
+          <li>Rate P drives actual roll-rate to the target → outputs Motor1.out (torque command). (_controller_perform() calls them in this exact order each tick.)</li>
+        </ul>
+
+        <p>Controller outputs → timers (actuation):</p>
+        <ul>
+          <li>Flywheel motor (balancing): sign of Motor1.out → DIR GPIO; magnitude → TIM3 CH1 PWM compare (0…2000).</li>
+          <li>Aux/N20 drive motor: speed set via TIM3 CH2 PWM; direction via AIN1/AIN2; enable via STBY (not part of balancing).</li>
+          <li>Steering servo: position via TIM1 CH1 (50 Hz), independent of balancing.</li>
+        </ul>
+
+        <p>Bottom line: Stage 4 provides the flywheel speed feedback (TIM2 encoder) and the hardware PWM endpoints (TIM3/TIM1). Stage 5 consumes that encoder feedback in the outer velocity loop, computes a torque command via the cascade PIDs, and writes it to TIM3 CH1 (plus DIR) to generate the reaction torque that keeps the bike upright.</p>
+
+        <h5>Stage 4a: Flywheel speed feedback (TIM2 in encoder mode)</h5>
+        <p>MX_TIM2_Init() sets quadrature mode TIM_ENCODERMODE_TI12, with input filters and a large period (50000) to avoid overflow; it is started in encoder mode.</p>
+        <p>readEncoderValue() reads counter, zeros it, and remaps wraparound for direction symmetry (via EncoderManage). Result in encoderINFO.mainNumberValue.</p>
+        <p>Concept: Every 5 ms, the IMU is fused to get roll angle and roll rate. Encoder-delta from TIM2 gives the instantaneous flywheel speed change. This prevents long-term momentum build-up via the outer velocity loop.</p>
+
+        <h5>Stage 4b: PWM for motors; servo timing (TIM3/TIM1)</h5>
+        <p>TIM3 configured for PWM: PSC=8−1, ARR=2000−1; CH1 (balancing motor), CH2 (aux motor).</p>
+        <p>TIM1 CH1 drives the steering servo; comments document 0.5–2.5 ms pulse mapping (5–25 compare counts).</p>
+        <p>Timer wiring: TIM3 is configured as PWM with PSC=8−1, ARR=2000−1; CH1 and CH2 are enabled and post-initialized to PA6 and PA7.</p>
+        <p>The 3-loop controller runs:</p>
+        <ul>
+          <li>Velocity loop (encoder) → produces a bias (desired angle).</li>
+          <li>Angle loop (roll) → produces desired roll-rate.</li>
+          <li>Rate loop (gyro) → produces Motor1.out (torque command).</li>
+        </ul>
+        <p>_controller_output() converts that to direction + PWM on TIM3 CH1 (flywheel motor). It also manages the aux motor (TIM3 CH2) and steering servo (TIM1 CH1).</p>
+        <p>Safety: if roll exceeds ~20°, outputs are nulled, aux motor disabled, PID integrals cleared</p>
+        <p>Concept: PWM duty maps the controller’s torque command to H-bridge voltage; servo is separate (steering). The controller compares values directly to each tick.</p>
+
+        <h4>Stage 5: Control and Actuation (Controller; PID)</h4>
+        <p>This stage focuses on the control of the main servo motors in the rc-bike (flywheel, steering, linear motion) via cascade PID (reads data from 3 loops in sequence, with different PID coefficients applied at the ends of different loops, thereby cascading the output). Feedback is received every 5ms, allowing the servo motors to adjust their actuation accordingly to ensure the bike regains balance as soon as possible.  </p>
+
+        <h5>Stage 5a: PID library (pid.c/.h) — generic math engine</h5>
+        <ul>
+          <li>Three instances (_ALL_PID all): velocity, angle, rate.</li>
+          <li>Central parameter table:</li>
+          <li>Angle: Kp=7.5, Ki=0, Kd=0, Imax=550, Umax=2000</li>
+          <li>Velocity: Kp=0.068, Ki=5e-5, Kd=0.055, Imax=500, Umax=2000</li>
+          <li>Rate: Kp=26.5, Ki=0, Kd=0, Imax=500, Umax=2000</li>
+          <li>pid_controller() (per tick):<br /> err = expect − feedback;<br /> integral += ki*err; (clamped ±Imax)<br /> out = kp*err + integral + kd*(err − err_last); (clamped ±Umax)</li>
+        </ul>
+        <p>Note: Ki/Kd are per-tick scalings (no explicit Ts in the code), so changing the loop period requires retuning those terms.</p>
+
+        <h5>Stage 5b: Controller (controller.c/.h) — orchestration + safety + IO</h5>
+        <p>Each 5 ms tick (_controller_perform → _controller_output)</p>
+        <ul>
+          <li>Velocity loop (outer)</li>
+          <li>expect = 0 (hold speed)</li>
+          <li>feedback = encoderINFO.mainNumberValue (counts/5 ms)</li>
+          <li>Output → desired angle (deg).</li>
+          <li>Angle loop (middle)</li>
+          <li>expect = vel.out</li>
+          <li>feedback = -att.rol (deg)</li>
+          <li>Output → desired roll-rate (deg/s).</li>
+          <li>Rate loop (inner)</li>
+          <li>expect = angle.out</li>
+          <li>feedback = -Mpu.deg_s.y (deg/s)</li>
+          <li>Output → motor torque command (signed).</li>
+          <li>Safety gates and actuation</li>
+          <li>Fall-down detect: |roll| &gt; ~20° → disable torque, clear integrators, latch restart.</li>
+          <li>Posture gate: reasonable accel-Z and |roll| ≤ 20° before enabling torque.</li>
+          <li>Map sign to DIR (H-bridge); magnitude to TIM3 CH1 PWM (0…2000).</li>
+          <li>Aux motor and servo steering handled concurrently (Bluetooth rocker inputs).</li>
+        </ul>
+      </div>
+    </div>
+
 
     
     <div id="references" class="references">
