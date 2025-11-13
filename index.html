@@ -240,51 +240,31 @@
         <!-- Appendix A -->
         <sl-tree-item expanded>
           <a href="#appendix-a">Appendix A: Interview Responses</a>
-          <sl-tree-item>
-            <a href="#appendix-a-bike-users">Bike users</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="#appendix-a-red-dot">Red Dot Mobility</a>
-          </sl-tree-item>
         </sl-tree-item>
 
         <!-- Appendix B -->
         <sl-tree-item expanded>
           <a href="#appendix-b">Appendix B: Industry Landscape</a>
-          <sl-tree-item>
-            <a href="#appendix-b-lit-motors">Lit Motors C1</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="#appendix-b-honda-riding-assist">Honda Riding Assist</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="#appendix-b-yamaha-amsas">Yamaha AMSAS</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="#appendix-b-piaggio-mp3">Piaggio MP3</a>
-          </sl-tree-item>
         </sl-tree-item>
 
         <!-- Appendix C -->
         <sl-tree-item expanded>
           <a href="#appendix-c">Appendix C: Concept Selection</a>
-          <sl-tree-item>
-            <a href="#appendix-c-selection-rationale">Selection rationale</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="#appendix-c-model-derivation">Model derivation</a>
-          </sl-tree-item>
         </sl-tree-item>
 
         <!-- Appendix D -->
         <sl-tree-item expanded>
           <a href="#appendix-d">Appendix D: Hardware and Software</a>
-          <sl-tree-item>
-            <a href="#appendix-d-hardware">Hardware</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="#appendix-d-software">Software</a>
-          </sl-tree-item>
+        </sl-tree-item>
+
+        <!-- Appendix E -->
+        <sl-tree-item expanded>
+          <a href="#appendix-e">Appendix E: Testing results</a>
+        </sl-tree-item>
+
+        <!-- Appendix F -->
+        <sl-tree-item expanded>
+          <a href="#appendix-f">Appendix F: Future work</a>
         </sl-tree-item>
 
         <!-- References -->
@@ -1640,57 +1620,87 @@
 
       <div id="appendix-d-hardware">
         <p>Hardware: </p>
-        <p>Power Subsystem</p>
-        <ul>
-          <li>Primary Energy Source</li>
-        </ul>
-        <p>A 3-cell lithium-ion polymer battery pack provides the main DC b....6 V (4.2 V/cell), avoiding deep discharge below 3.0 V/cell<sup>[45]</sup>.</p>
-        <ul>
-          <li>DC–DC Conversion</li>
-        </ul>
-        <p>Boost converter: Steps up battery voltage from 12V to 20V, and if a higher bus voltage is required by the chosen BLDC to reach target reaction-wheel speed.</p>
-        <p>Buck converter (MP1584): Steps the battery down to 5V for servo and auxiliary electronics; rated up to 3 A with wide input range and well-characterized behavior<sup>[46]</sup>.</p>
-        <p>LDO (RT919): Generates 3.3 V for the MCU with ultra-low noise output suitable for its peripherals and precision sensors<sup>[47]</sup>.</p>
-        <p>Control</p>
-        <ul>
-          <li>MCU</li>
-        </ul>
-        <p>STM32F103C8T6 (Cortex-M3 @ 72 MHz) with 64 KB Flash/20 KB SRAM, timers for PWM/IC, I²C/SPI/UART, and USB FS for debug<sup>[48]</sup>. The firmware uses STM32 HAL atop ARM CMSIS for portable peripheral access, easing timer, UART, and I²C bring-up and enabling quicker iteration on control code<sup>[49]</sup>.</p>
-        <p>Sensing</p>
-        <ul>
-          <li>IMU</li>
-        </ul>
-        <p>MPU-6050 (6-axis; 3-axis gyro and 3-axis accel) provides roll angle/roll-rate signals and supports I²C up to 400 kHz; VLOGIC allows clean 3.3 V interfacing<sup>[50]</sup>.</p>
-        <ul>
-          <li>Rotary encoder</li>
-        </ul>
-        <p>A dual-channel optical incremental encoder outputting A and B square-waves in 90° phase offset encodes direction and enables edge-counting for position and speed measurement<sup>[53]</sup>.</p>
-        <p>Actuation</p>
-        <ul>
-          <li>Reaction-Wheel</li>
-        </ul>
-        <p>12V BLDC Motor + ESC: A three-phase BLDC drives the reaction wheel through a dedicated ESC.</p>
-        <ul>
-          <li>Steering</li>
-        </ul>
-        <p>A standard RC servo handles steering. Typical operating voltage is 4.8V nominal (3V to 6V DC) from the 5V rail. It has an operation speed of 0.1sec /60degree<sup>[51]</sup>.</p>
-        <ul>
-          <li>Forward/reverse drive</li>
-        </ul>
-        <p>A miniature 12V N20 geared motor allows forward/backward motion<sup>[52]</sup>.</p>
-        <p>User communication</p>
-        <ul>
-          <li>Bluetooth</li>
-        </ul>
-        <p>A standard Bluetooth module provides serial telemetry and user enabled control of the steering and drive.</p>
-        <ul>
-          <li>USB-UART</li>
-        </ul>
-        <p>For wired logging and parameter tuning, the design uses a USB-UART bridge.</p>
-        <ul>
-          <li>OLED</li>
-        </ul>
-        <p>The OLED provides essential runtime data such as system state, roll angle and battery voltage indicators.</p>
+        <h5>Power Subsystem</h5>
+        <ol>
+          <li>
+            <strong>Primary Energy Source</strong><br>
+            A 3-cell lithium-ion polymer battery pack provides the main DC bus. A 3S pack has a nominal 11.1 V, charges to 12.6 V (4.2 V/cell), avoiding deep discharge below 3.0 V/cell.<sup>[45]</sup>
+          </li>
+
+          <li>
+            <strong>DC–DC Conversion</strong><br>
+            Boost converter: Steps up battery voltage from 12V to 20V, and if a higher bus voltage is required by the chosen BLDC to reach target reaction-wheel speed.
+          </li>
+
+          <li>
+            <strong>Buck converter (MP1584)</strong><br>
+            Steps the battery down to 5V for servo and auxiliary electronics; rated up to 3 A with wide input range and well-characterized behavior.<sup>[46]</sup>
+          </li>
+
+          <li>
+            <strong>LDO (RT919)</strong><br>
+            Generates 3.3 V for the MCU with ultra-low noise output suitable for its peripherals and precision sensors.<sup>[47]</sup>
+          </li>
+        </ol>
+
+        <h5>Control</h5>
+        <ol>
+          <li>
+            <strong>MCU</strong><br>
+            STM32F103C8T6 (Cortex-M3 @ 72 MHz) with 64 KB Flash/20 KB SRAM, timers for PWM/IC, I²C/SPI/UART, and USB FS for debug.<sup>[48]</sup>
+            The firmware uses STM32 HAL atop ARM CMSIS for portable peripheral access, easing timer, UART, and I²C bring-up and enabling quicker iteration on control code.<sup>[49]</sup>
+          </li>
+        </ol>
+
+        <h5>Sensing</h5>
+        <ol>
+          <li>
+            <strong>IMU</strong><br>
+            MPU-6050 (6-axis; 3-axis gyro and 3-axis accel) provides roll angle/roll-rate signals and supports I²C up to 400 kHz; VLOGIC allows clean 3.3 V interfacing.<sup>[50]</sup>
+          </li>
+
+          <li>
+            <strong>Rotary encoder</strong><br>
+            A dual-channel optical incremental encoder outputting A and B square-waves in 90° phase offset encodes direction and enables edge-counting for position and speed measurement.<sup>[53]</sup>
+          </li>
+        </ol>
+
+        <h5>Actuation</h5>
+        <ol>
+          <li>
+            <strong>Reaction-Wheel</strong><br>
+            12V BLDC Motor + ESC: A three-phase BLDC drives the reaction wheel through a dedicated ESC.
+          </li>
+
+          <li>
+            <strong>Steering</strong><br>
+            A standard RC servo handles steering. Typical operating voltage is 4.8V nominal (3V to 6V DC) from the 5V rail. It has an operation speed of 0.1sec /60degree.<sup>[51]</sup>
+          </li>
+
+          <li>
+            <strong>Forward/reverse drive</strong><br>
+            A miniature 12V N20 geared motor allows forward/backward motion.<sup>[52]</sup>
+          </li>
+        </ol>
+
+        <h5>User communication</h5>
+        <ol>
+          <li>
+            <strong>Bluetooth</strong><br>
+            A standard Bluetooth module provides serial telemetry and user enabled control of the steering and drive.
+          </li>
+
+          <li>
+            <strong>USB-UART</strong><br>
+            For wired logging and parameter tuning, the design uses a USB-UART bridge.
+          </li>
+
+          <li>
+            <strong>OLED</strong><br>
+            The OLED provides essential runtime data such as system state, roll angle and battery voltage indicators.
+          </li>
+        </ol>
+
       </div>
 
       <div id="appendix-d-software">
@@ -1864,6 +1874,525 @@
       </div>
     </div>
 
+
+    <div id="appendix-e">
+      <h2>Appendix E: Testing results</h2>
+
+      <div id="appendix-e-experiment-2a">
+        <h3>Experiment 2A</h3>
+
+        <h5>Results</h5>
+        <table-component subtitle="Results – Experiment 2A">
+          <table>
+            <thead>
+              <tr>
+                <th>Mass/g</th>
+                <th>Steady-state/°</th>
+                <th>Settling time/count*</th>
+                <th>Settling time/s</th>
+                <th>Max Overshoot</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>-2.29</td>
+                <td>67</td>
+                <td>3.35</td>
+                <td>0.12</td>
+              </tr>
+              <tr>
+                <td>21.6</td>
+                <td>-2.18</td>
+                <td>83</td>
+                <td>4.15</td>
+                <td>0.15</td>
+              </tr>
+              <tr>
+                <td>43.2</td>
+                <td>-2.23</td>
+                <td>100</td>
+                <td>5</td>
+                <td>0.17</td>
+              </tr>
+              <tr>
+                <td>52.4</td>
+                <td>-2.215</td>
+                <td>208</td>
+                <td>10.4</td>
+                <td>0.245</td>
+              </tr>
+            </tbody>
+          </table>
+        </table-component>
+
+        <!--
+        <image-component
+          tag="figure-36"
+          source="assets/figure-36.png"
+          subtitle="Figure 36: Roll angle oscillation of unloaded rc-bike"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-37"
+          source="assets/figure-37.png"
+          subtitle="Figure 37: Physical set-up for unloaded rc-bike"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-38"
+          source="assets/figure-38.png"
+          subtitle="Figure 38: Roll angle oscillation of rc-bike with 21.6g load"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-39"
+          source="assets/figure-39.png"
+          subtitle="Figure 39: Physical set-up of rc-bike with 21.6g load"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-40"
+          source="assets/figure-40.png"
+          subtitle="Figure 40: Roll angle oscillation of rc-bike with 43.2g load"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-41"
+          source="assets/figure-41.png"
+          subtitle="Figure 41: Physical set-up of rc-bike with 43.2g load"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-42"
+          source="assets/figure-42.png"
+          subtitle="Figure 42: Roll angle oscillation of rc-bike with 52.4g load"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-43"
+          source="assets/figure-43.png"
+          subtitle="Figure 43: Physical set-up of rc-bike with 52.4g load"
+        ></image-component>
+        -->
+      </div>
+
+      <div id="appendix-e-experiment-2b">
+        <h3>Experiment 2B</h3>
+
+        <h5>Results</h5>
+        <table-component subtitle="Results – Experiment 2B">
+          <table>
+            <thead>
+              <tr>
+                <th>Mass/g</th>
+                <th>Steady-state/°</th>
+                <th>Settling time/count</th>
+                <th>Settling time/s</th>
+                <th>Max overshoot/°</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>-2.29</td>
+                <td>67</td>
+                <td>3.35</td>
+                <td>0.12</td>
+              </tr>
+              <tr>
+                <td>10.8</td>
+                <td>-2.96</td>
+                <td>158</td>
+                <td>7.9</td>
+                <td>0.4</td>
+              </tr>
+              <tr>
+                <td>21.6</td>
+                <td>-3.55</td>
+                <td>183</td>
+                <td>9.15</td>
+                <td>0.65</td>
+              </tr>
+              <tr>
+                <td>32.4</td>
+                <td>-3.93</td>
+                <td>192</td>
+                <td>9.6</td>
+                <td>1.9</td>
+              </tr>
+            </tbody>
+          </table>
+        </table-component>
+
+        <!--
+        <image-component
+          tag="figure-44"
+          source="assets/figure-44.png"
+          subtitle="Figure 44: Roll angle oscillation of unloaded rc-bike"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-45"
+          source="assets/figure-45.png"
+          subtitle="Figure 45: Physical set-up for unloaded rc-bike"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-46"
+          source="assets/figure-46.png"
+          subtitle="Figure 46: Roll angle oscillation of rc-bike with 10.8g load on one side only"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-47"
+          source="assets/figure-47.png"
+          subtitle="Figure 47: Physical set-up of  rc-bike with 10.8g load on one side only"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-48"
+          source="assets/figure-48.png"
+          subtitle="Figure 48: Roll angle oscillation of rc-bike with 21.6g load on one side only"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-49"
+          source="assets/figure-49.png"
+          subtitle="Figure 49: Physical set-up of  rc-bike with 21.6g load on one side only"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-50"
+          source="assets/figure-50.png"
+          subtitle="Figure 50: Roll angle oscillation of rc-bike with 32.4g load on one side only"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-51"
+          source="assets/figure-51.png"
+          subtitle="Figure 51: Physical set-up of  rc-bike with 32.4g load on one side only"
+        ></image-component>
+        -->
+      </div>
+
+      <div id="appendix-e-experiment-2c">
+        <h3>Experiment 2C</h3>
+
+        <h5>Results</h5>
+        <table-component subtitle="Results – Experiment 2C (Force and Torque)">
+          <table>
+            <thead>
+              <tr>
+                <th>Ჶ/°</th>
+                <th>𝜃/°</th>
+                <th>Force/N</th>
+                <th>Torque/N m</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>50.4</td>
+                <td>39.6</td>
+                <td>0.27</td>
+                <td>0.0743</td>
+              </tr>
+              <tr>
+                <td>45.4</td>
+                <td>44.6</td>
+                <td>0.296</td>
+                <td>0.0818</td>
+              </tr>
+              <tr>
+                <td>39</td>
+                <td>51</td>
+                <td>0.329</td>
+                <td>0.0906</td>
+              </tr>
+            </tbody>
+          </table>
+        </table-component>
+
+        <table-component subtitle="Results – Experiment 2C (Torque vs response)">
+          <table>
+            <thead>
+              <tr>
+                <th>Torque/N m</th>
+                <th>Steady-state/°</th>
+                <th>Settling time/count</th>
+                <th>Settling time/s</th>
+                <th>Max overshoot/°</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0.0743</td>
+                <td>-2.20</td>
+                <td>100</td>
+                <td>5</td>
+                <td>2.8</td>
+              </tr>
+              <tr>
+                <td>0.0818</td>
+                <td>-2.30</td>
+                <td>117</td>
+                <td>5.85</td>
+                <td>4.6</td>
+              </tr>
+              <tr>
+                <td>0.0906</td>
+                <td>-2.25</td>
+                <td>200</td>
+                <td>10</td>
+                <td>6.75</td>
+              </tr>
+            </tbody>
+          </table>
+        </table-component>
+
+        <h5>Parameters used</h5>
+        <table-component subtitle="Parameters used – Experiment 2C">
+          <table>
+            <tbody>
+              <tr>
+                <td>String</td>
+                <td>27.5cm</td>
+              </tr>
+              <tr>
+                <td>Pendulum (4x M10 nuts)</td>
+                <td> 43.2g</td>
+              </tr>
+            </tbody>
+          </table>
+        </table-component>
+
+        <!--
+        <image-component
+          tag="figure-52"
+          source="assets/figure-52.png"
+          subtitle="Figure 52: Roll angle oscillation of rc-bike with pendulum angle 39.0°"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-53"
+          source="assets/figure-53.png"
+          subtitle="Figure 53: Physical set-up of rc-bike with pendulum angle 39.0°"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-54"
+          source="assets/figure-54.png"
+          subtitle="Figure 54: Roll angle oscillation of rc-bike with pendulum angle 45.4°"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-55"
+          source="assets/figure-55.png"
+          subtitle="Figure 55: Physical set-up of rc-bike with pendulum angle 45.4°"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-56"
+          source="assets/figure-56.png"
+          subtitle="Figure 56: Roll angle oscillation of rc-bike with pendulum angle 50.4°"
+        ></image-component>
+        -->
+
+        <!--
+        <image-component
+          tag="figure-57"
+          source="assets/figure-57.png"
+          subtitle="Figure 57: Physical set-up of rc-bike with pendulum angle 50.4°"
+        ></image-component>
+        -->
+      </div>
+    </div>
+
+
+    <div id="appendix-f">
+      <h2>Appendix F: Future work</h2>
+
+      <div id="appendix-f-test-2d">
+        <h3>Test 2D: Change in CG Height</h3>
+
+        <h5>Rationale</h5>
+        <p>
+          To evaluate how variations in the bike’s vertical CG affect the stability margin and settling characteristics of the self-balancing system. Raising the CG increases overturning moment and tests the controller’s robustness under reduced stability.
+        </p>
+
+        <h5>Steps</h5>
+        <ol>
+          <li>Attach an overhead brace securely above the side protrusions to serve as a raised platform.</li>
+          <li>Mount additional weights on the brace to elevate the CG relative to the baseline configuration.</li>
+          <li>Repeat the same disturbance and step tests conducted in Experiment 2A.</li>
+          <li>Record settling time, overshoot and neutralisation time for each CG height.</li>
+        </ol>
+
+        <h5>Equipment</h5>
+        <p>Overhead brace, modular weights, IMU, data logger.</p>
+      </div>
+
+      <div id="appendix-f-test-2e">
+        <h3>Test 2E: Forward and Backward Motion</h3>
+
+        <h5>Rationale</h5>
+        <p>
+          To assess the system’s ability to maintain balance under linear acceleration and deceleration, replicating the transition between stationary and low-speed motion.
+        </p>
+
+        <h5>Steps</h5>
+        <ol>
+          <li>Place the RC bike on a flat, movable surface.</li>
+          <li>Initialise the self-balancing controller and allow the bike to stabilise. Gradually tilt the surface from one end to simulate forward motion; repeat in the reverse direction.</li>
+          <li>Note the slope angle at which the bike begins to tilt, stall or lose balance.</li>
+          <li>Record roll angle and reaction wheel response throughout the motion.</li>
+        </ol>
+
+        <h5>Equipment</h5>
+        <p>Movable surface/box, inclinometer, IMU, data logger.</p>
+      </div>
+
+      <div id="appendix-f-test-2f">
+        <h3>Test 2F: CG Deviation Simulation (Flexible Mast)</h3>
+
+        <h5>Rationale</h5>
+        <p>
+          To investigate how real-time lateral or vertical CG shifts, representing rider movement affect balance stability and controller responsiveness.
+        </p>
+
+        <h5>Steps</h5>
+        <ol>
+          <li>Install a raised flexible mast or brace capable of carrying small adjustable weights.</li>
+          <li>Configure the weights to move laterally or vertically to simulate rider lean and posture change.</li>
+          <li>Conduct disturbance tests (side tap, bump, tilt release) under each CG configuration.</li>
+          <li>Log roll angle and control response to determine sensitivity to CG variation.</li>
+        </ol>
+
+        <h5>Equipment</h5>
+        <p>Flexible mast/brace, modular sliding weights, IMU, data logger, bump strip.</p>
+      </div>
+
+      <div id="appendix-f-test-2g">
+        <h3>Test 2G: Road Condition and Disturbance Test</h3>
+
+        <h5>Rationale</h5>
+        <p>
+          To evaluate robustness of the self-balancing system under unpredictable environmental conditions such as bumps, side winds, and uneven surfaces.
+        </p>
+
+        <h5>Steps</h5>
+        <ol>
+          <li>Construct an obstacle course including bumps, rough surfaces, low-friction zones, and mild side-slopes.</li>
+          <li>Operate the RC bike under different CG configurations (with rider, without rider).</li>
+          <li>Apply controlled side impulses and observe disturbance recovery behaviour.</li>
+          <li>Record roll angle, neutralisation time, and failure rate across conditions.</li>
+        </ol>
+
+        <h5>Equipment</h5>
+        <p>Custom obstacle course (rubber strips, tiles, mats, slope wedges, fan), IMU, data logger.</p>
+      </div>
+
+      <div id="appendix-f-test-3">
+        <h3>Test 3: Full-scale bicycle testing</h3>
+
+        <div id="appendix-f-test-3a">
+          <h4>Test 3A: Rider Steering Coexistence Map</h4>
+
+          <h5>Rationale</h5>
+          <p>
+            To evaluate how the control system interacts with rider steering inputs and determine thresholds for smooth, non-intrusive assistance.
+          </p>
+
+          <h5>Steps</h5>
+          <ol>
+            <li>Equip handlebars with torque sensors to measure rider steering effort.</li>
+            <li>Conduct controlled tests where the rider performs small steering inputs during stationary balance, start-up, and stopping.</li>
+            <li>Record steering torque, lean rate, and controller output.</li>
+            <li>Generate a coexistence map correlating rider input magnitude with controller intervention.</li>
+          </ol>
+
+          <h5>Equipment</h5>
+          <p>Handlebar torque sensor, IMU, microcontroller with selectable modes, data logger, safety tether.</p>
+        </div>
+
+        <div id="appendix-f-test-3b">
+          <h4>Test 3B: Hardware-in-the-Loop (HIL) Simulation</h4>
+
+          <h5>Rationale</h5>
+          <p>
+            To test and refine the control algorithm safely in a simulated environment before full-scale deployment. This allows parameter tuning without hardware risks.
+          </p>
+
+          <h5>Steps</h5>
+          <ol>
+            <li>Interface the MCU with a computer-based dynamic model of the bike’s roll motion via UART.</li>
+            <li>Simulate disturbances, CG variations, and speed profiles while the MCU executes real-time control.</li>
+            <li>Compare simulated roll response to data from RC tests to verify model accuracy.</li>
+            <li>Adjust control parameters based on observed discrepancies.</li>
+          </ol>
+
+          <h5>Equipment</h5>
+          <p>MCU, laptop with dynamic simulation software (MATLAB/Simulink or Python).</p>
+        </div>
+
+        <div id="appendix-f-test-3c">
+          <h4>Test 3C: Human-in-the-Loop Rider Trials</h4>
+
+          <h5>Rationale</h5>
+          <p>
+            To assess real-world rider interaction, comfort, and perceived control intrusiveness of the self-balancing system.
+          </p>
+
+          <h5>Steps</h5>
+          <ol>
+            <li>Conduct tests under three conditions: riderless, stationary rider, and moving rider.</li>
+            <li>For each condition, test during stationary balance, start-up, and stopping phases.</li>
+            <li>Record IMU, steering torque, and controller output data.</li>
+            <li>Collect rider feedback to identify intrusive or delayed control behaviour.</li>
+            <li>Adjust assist mode parameters based on rider response.</li>
+          </ol>
+
+          <h5>Equipment</h5>
+          <p>Weighted brace or rig, handlebar torque sensor, IMU, data logger, safety gear.</p>
+        </div>
+      </div>
+    </div>
 
     
     <div id="references" class="references">
