@@ -1265,6 +1265,12 @@
         </table-component>
       </div>
 
+        <image-component 
+          tag="limitations"
+          source="assets/limitations.png"
+          subtitle="Table 6: Limitations"
+        ></image-component>
+
       <!-- 9.2 Proposed Solutions and Workarounds -->
       <div id="sub-section-9-header-2">
         <h3>9.2 Proposed Solutions and Workarounds</h3>
@@ -1273,9 +1279,13 @@
           Moving forward, a more coordinated approach will be adopted to maximise the use of available resources, including guidance from professors, our supervisor, and the industry partner. Additional time will be dedicated to hands-on design, programming, integration, and testing to ensure steady progress and early resolution of potential technical issues.
         </p>
 
-        <table-component subtitle="Table 7: Proposed solutions">
-          <div id="table-7"></div>
-        </table-component>
+        
+        <image-component 
+          tag="proposedsoln"
+          source="assets/proposedsoln.png"
+          subtitle="Table 7: Proposed solutions"
+        ></image-component>
+       
 
         <p>
           These steps collectively aim to support the effective implementation of the self-balancing mechanism on a full-scale bicycle. See Appendix F for test details.
@@ -1619,84 +1629,84 @@
       <h2>Appendix D: Hardware and Software</h2>
 
       <div id="appendix-d-hardware">
-        <p>Hardware: </p>
-        <h5>Power Subsystem</h5>
+        <h3>Hardware: </h3>
+        <h4>Power Subsystem</h4>
         <ol>
           <li>
-            <strong>Primary Energy Source</strong><br>
+            <u>Primary Energy Source</u><br>
             A 3-cell lithium-ion polymer battery pack provides the main DC bus. A 3S pack has a nominal 11.1 V, charges to 12.6 V (4.2 V/cell), avoiding deep discharge below 3.0 V/cell.<sup>[45]</sup>
           </li>
 
           <li>
-            <strong>DC–DC Conversion</strong><br>
+            <u>DC–DC Conversion</u><br>
             Boost converter: Steps up battery voltage from 12V to 20V, and if a higher bus voltage is required by the chosen BLDC to reach target reaction-wheel speed.
           </li>
 
           <li>
-            <strong>Buck converter (MP1584)</strong><br>
+            <u>Buck converter (MP1584)</u><br>
             Steps the battery down to 5V for servo and auxiliary electronics; rated up to 3 A with wide input range and well-characterized behavior.<sup>[46]</sup>
           </li>
 
           <li>
-            <strong>LDO (RT919)</strong><br>
+            <u>LDO (RT919)</u><br>
             Generates 3.3 V for the MCU with ultra-low noise output suitable for its peripherals and precision sensors.<sup>[47]</sup>
           </li>
         </ol>
 
-        <h5>Control</h5>
+        <h4>Control</h4>
         <ol>
           <li>
-            <strong>MCU</strong><br>
+            <u>MCU</u><br>
             STM32F103C8T6 (Cortex-M3 @ 72 MHz) with 64 KB Flash/20 KB SRAM, timers for PWM/IC, I²C/SPI/UART, and USB FS for debug.<sup>[48]</sup>
             The firmware uses STM32 HAL atop ARM CMSIS for portable peripheral access, easing timer, UART, and I²C bring-up and enabling quicker iteration on control code.<sup>[49]</sup>
           </li>
         </ol>
 
-        <h5>Sensing</h5>
+        <h4>Sensing</h4>
         <ol>
           <li>
-            <strong>IMU</strong><br>
+            <u>IMU</u><br>
             MPU-6050 (6-axis; 3-axis gyro and 3-axis accel) provides roll angle/roll-rate signals and supports I²C up to 400 kHz; VLOGIC allows clean 3.3 V interfacing.<sup>[50]</sup>
           </li>
 
           <li>
-            <strong>Rotary encoder</strong><br>
+            <u>Rotary encoder</u><br>
             A dual-channel optical incremental encoder outputting A and B square-waves in 90° phase offset encodes direction and enables edge-counting for position and speed measurement.<sup>[53]</sup>
           </li>
         </ol>
 
-        <h5>Actuation</h5>
+        <h4>Actuation</h4>
         <ol>
           <li>
-            <strong>Reaction-Wheel</strong><br>
+            <u>Reaction-Wheel</u><br>
             12V BLDC Motor + ESC: A three-phase BLDC drives the reaction wheel through a dedicated ESC.
           </li>
 
           <li>
-            <strong>Steering</strong><br>
+            <u>Steering</u><br>
             A standard RC servo handles steering. Typical operating voltage is 4.8V nominal (3V to 6V DC) from the 5V rail. It has an operation speed of 0.1sec /60degree.<sup>[51]</sup>
           </li>
 
           <li>
-            <strong>Forward/reverse drive</strong><br>
+            <u>Forward/reverse drive</u><br>
             A miniature 12V N20 geared motor allows forward/backward motion.<sup>[52]</sup>
           </li>
         </ol>
 
-        <h5>User communication</h5>
+        <h4>User communication</h4>
         <ol>
           <li>
-            <strong>Bluetooth</strong><br>
+            <u>Bluetooth</u><br>
             A standard Bluetooth module provides serial telemetry and user enabled control of the steering and drive.
           </li>
 
           <li>
-            <strong>USB-UART</strong><br>
+            <u>USB-UART</u><br>
             For wired logging and parameter tuning, the design uses a USB-UART bridge.
           </li>
 
           <li>
-            <strong>OLED</strong><br>
+            <u>OLED</u><br>
             The OLED provides essential runtime data such as system state, roll angle and battery voltage indicators.
           </li>
         </ol>
@@ -1706,12 +1716,12 @@
       <div id="appendix-d-software">
         <h3>Software: Frameworks and Models</h3>
 
-        <ul>
+        <ol>
           <li>Mahony Filter: Key features: PI controller with tunable gains Kp (proportional), Ki (integral). Can operate with IMU (gyro+acc) or MARG (gyro+acc+mag) configurations Computationally efficient, suitable for embedded hardware such as drones and micro-UAVs Produces continuous quaternion updates, which can then be converted to Euler angles or rotation matrices Mathematically, the quaternion update uses: qt+1=qt+12 qt⊗(ω_corrected) Δtq t+1​=q t+ 21q t⊗(ω_corrected)Δt, where ω_corrected is the gyroscope reading corrected by the error derived from accelerometer (and magnetometer) measurements, and ⊗ denotes the Hamilton product.</li>
           <li>Quaternion Filters: A quaternion filter refers to any filter (Mahony, Madgwick, Kalman) that represents orientation in quaternions rather than Euler angles or rotation matrices. Advantages of quaternions: Avoid gimbal lock Efficient representation of rotations in 3D (SO(3)) Simplifies numerical integration of angular velocities Quaternion-based orientation filters perform the following: Integrate gyroscope readings over time to propagate orientation Compare predicted quaternion with measured reference vectors (gravity, magnetic field) Apply feedback correction (proportional/integral or Kalman gain) Normalize the quaternion to maintain unit length Both Mahony and VQF (Versatile Quaternion Filter) are examples of quaternion filters designed for IMU fusion.</li>
           <li>Usage with an IMU An IMU provides: a = accelerometer measurements ω = gyroscope measurements optional m = magnetometer measurements Workflow for orientation estimation using the Mahony filter: Normalize accelerometer and magnetometer vectors. Compute estimated gravity/magnetic vectors from current quaternion. Calculate error vector: cross product of measured vs predicted. Apply PI correction to the gyroscope readings: ω_corrected = ω + KP(e) + Ki∫(e) dt [Bounds: t and 0] Integrate quaternion using corrected angular rate. Normalize quaternion and optionally convert to Euler angles or rotation matrix. Optional features: Magnetometer-free 6D mode: uses gyro+acceleration only Full 9D mode: uses gyro+acc+mag for improved heading (yaw) accuracy Bias estimation: integral term compensates for gyro drift</li>
           <li>Practical Use Cases Micro-UAVs / Quadcopter autopilot: Stabilizes vehicle attitude based on IMU IMU-based motion tracking: Wearables, human biomechanics Sensor fusion pre-processing: Feeding filtered orientation to navigation or control loops</li>
-        </ul>
+        </ol>
 
         <p>Example pseudo-code (IMU-only, Mahony filter): orientation = Mahony(Kp=1.0, Ki=0.3) q = [1, 0, 0, 0] # initial quaternion for t in range(num_samples): q = orientation.updateIMU(q, gyro=gyro_data[t], acc=acc_data[t]) This routine iteratively outputs the estimated orientation quaternion for each timestamp.</p>
 
@@ -1720,27 +1730,46 @@
         <h3>Code: </h3>
 
         <h4>Stage 1: Boot and Firmware start-up (main.c)</h4>
-        <p>This stage configures the rc-bike’s firmware at startup. At reset, the MCU initializes the HAL, clocks, and drivers, then starts the PWM channels and the sensing/control stack before giving control to FreeRTOS. This stage configures sensing (IMU), actuation (PWM/servo), and timing (FreeRTOS + timers) so later stages can run deterministically at the desired rate of 5ms. </p>
+        <p>
+          This stage configures the rc-bike’s firmware at startup. At reset, the MCU initializes the HAL, clocks, and 
+          drivers, then starts the PWM channels and the sensing/control stack before giving control to FreeRTOS. 
+          This stage configures sensing (IMU), actuation (PWM/servo), and timing (FreeRTOS + timers) so later 
+          stages can run deterministically at the desired rate of 5ms.
+        </p>
 
-        <ul>
+        <ol>
           <li>Initialise HAL and Clock at start-up</li>
+
           <li>Initialise peripherals (GPIO, DMA, ADC, UART, timers)</li>
-          <li>Start PWM outputs for motor drivers: </li>
-          <li>TIM3 CH1 (flywheel) -&gt; Balance mechanism</li>
-          <li>TIM3 CH2 (aux motor) -&gt; Front/Back Motion</li>
-          <li>TIM1 CH1 (steering servo) -&gt; Steering </li>
-          <li>Initialise soft-I²C (bit-banged) and MPU6050</li>
-          <li>Soft-I²C: Enables communication between MPU6050 and code interface </li>
-          <li>MPU6050: IMU hardware (obtains raw angle, angular velocity and speed data)</li>
+
+          <li>
+            Start PWM outputs for motor drivers:
+            <ul>
+              <li>TIM3 CH1 (flywheel) → Balance mechanism</li>
+              <li>TIM3 CH2 (aux motor) → Front/Back Motion</li>
+              <li>TIM1 CH1 (steering servo) → Steering</li>
+            </ul>
+          </li>
+
+          <li>
+            Initialise soft-I²C (bit-banged) and MPU6050
+            <ul>
+              <li>Soft-I²C: Enables communication between MPU6050 and code interface</li>
+              <li>MPU6050: IMU hardware (obtains raw angle, angular velocity and speed data)</li>
+            </ul>
+          </li>
+
           <li>Signal-Processing Setup and UI</li>
+
           <li>Initialise FreeRTOS kernel (after startup, code sequence moves into FreeRTOS program)</li>
-        </ul>
+        </ol>
+
 
         <h4>Stage 2: Real-time Loop Orchestration (FreeRTOS.c/.h)</h4>
         <p>FreeRTOS refers to the RC-bike’s Real-Time Operating System. In this stage, FreeRTOS basically executes a series of 6 tasks continuously in a loop of 5ms until the bike is switched off. Of these 6 tasks, the RC-Bike’s self-balancing mechanism/pipeline is implemented in StartSensorSampleTask and runs every 5 ms (200 Hz). In each iteration the firmware performs: acquisition → filtering → state estimation → feedback readout → cascade control → actuation → calibration. </p>
         <p>Per-tick sequence (exact order; 1 tick = 1kHz):</p>
 
-        <ul>
+        <ol>
           <li>Read and obtain raw accelerometer and gyroscope data from sensors: </li>
           <li>Gyroscope data Unit Conversion: gyro raw → deg/s and rad/s. </li>
           <li>Accelerometer filtering (IIR) and unit conversion to g via acc_iir_lpf and get_acc_g.</li>
@@ -1748,12 +1777,12 @@
           <li>Feedback from flywheel encoder: readEncoderValue() returns Δcounts/5 ms.</li>
           <li>Cascade PID controller: _controller_perform() computes torque; _controller_output() applies safety and writes PWM/dir.</li>
           <li>Gyro bias calibration (slow background): gyro_cal(...). Then osDelay(5).</li>
-        </ul>
+        </ol>
 
         <h4>Stage 3: Sensing and State Estimation (IMU, MPU6050, IMATH, Filter)</h4>
         <p>This stage encompasses data sensing and preliminary processing. The MPU6050 sensor reads raw data every tick (5ms) for 3 parameters: angle, speed (linear velocity), angular velocity. These 3 raw data categories undergo processing (unit conversion, filtering) and are then held in vector structures (matrices) for historical reference for feedback control. </p>
 
-        <h5>Stage 3a: MPU6050 layer (mpu6050.c/.h) — raw data → clean, scaled signals</h5>
+        <p><u>Stage 3a: MPU6050 layer (mpu6050.c/.h) — raw data → clean, scaled signals</u></p>
         <p>Init (once):</p>
         <ul>
           <li>Reset → wake, SMPLRT_DIV=0 (1 kHz base with DLPF), CONFIG=0x03 (≈44 Hz acc / 42 Hz gyro), ±2000 dps gyro, ±8 g accel.</li>
@@ -1773,11 +1802,12 @@
           <li>Mpu.deg_s (deg/s) → used to integrate yaw and as rate feedback in the inner loop.</li>
         </ul>
 
-        <h5>Stage 3b: IMU fusion (imu.c/.h) — Mahony AHRS (quaternion based)</h5>
+        <p><u>Stage 3b: IMU fusion (imu.c/.h) — Mahony AHRS (quaternion based)</u></p>
+
         <p>This step focuses on processing the data obtained from the MPU6050 sensor by parsing the accelerometer and gyroscope data (both in 3-axis, so 6 data types total) through a Mahoney Filter (a type of Quaternion filter). These datasets are contained in a DCM (Direction Cosine Matrix), and a DCM_Transposed version. This yields fast, low-drift roll and roll-rate estimates for control.</p>
 
         <p>Each 5 ms tick (mahony_update)</p>
-        <ul>
+        <ol>
           <li>Normalize accel to unit vector (gravity direction).</li>
           <li>Predict gravity in body frame from last attitude (Mat.DCM_T 3rd column).</li>
           <li>Error = a × v̂ → a small rotation vector.</li>
@@ -1785,11 +1815,13 @@
           <li>Integrate quaternion with corrected gyro (Ts=0.005 s), renormalize.</li>
           <li>Convert to Euler: roll, pitch (deg); yaw is integrated from Mpu.deg_s.z.</li>
           <li>Refresh rotation matrices (Matrix_ready()).</li>
-        </ul>
+        </ol>
 
-        <h5>Stage 3c: Math and filters (libraries used by 3a/3b)</h5>
-        <p>imath.c: invSqrt() for accel/quaternion normalization; small vector/set helpers used in calibration and controller clamps.</p>
-        <p>filter.c: generic 2-pole Butterworth LPF used by mpu6050.c to pre-condition accel/gyro.</p>
+        <p><u>Stage 3c: Math and filters (libraries used by 3a/3b)</u></p>
+        <ul>  
+          <li>imath.c: invSqrt() for accel/quaternion normalization; small vector/set helpers used in calibration and controller clamps.</li>
+          <li>filter.c: generic 2-pole Butterworth LPF used by mpu6050.c to pre-condition accel/gyro.</li>
+        </ul>
 
         <h4>Stage 4: Wheel Motion Feedback and Timing (Encoder; Timers)</h4>
         <p>This stage focuses on measuring the spin rate and direction of the flywheel motor every control tick (5 ms). The controller uses this to keep the flywheel operating near its mid-speed so it doesn’t “wind up.” This stage relies on a quadrature encoder wired to TIM2 (time counter; controls flywheel speed) to process the data every 5ms. This data will feed the outer velocity loop and act as feedback for the flywheel to optimise its spin rate and direction and return the bike upright as quickly as possible. </p>
@@ -1802,11 +1834,11 @@
         </ul>
 
         <p>Controller cascade (inside _controller_perform()):</p>
-        <ul>
+        <ol>
           <li>Velocity PID (setpoint 0) uses the encoder delta to produce a gentle desired angle (keeps the flywheel from “winding up”).</li>
           <li>Angle P drives roll toward that angle → outputs desired roll-rate.</li>
           <li>Rate P drives actual roll-rate to the target → outputs Motor1.out (torque command). (_controller_perform() calls them in this exact order each tick.)</li>
-        </ul>
+        </ol>
 
         <p>Controller outputs → timers (actuation):</p>
         <ul>
@@ -1817,60 +1849,107 @@
 
         <p>Bottom line: Stage 4 provides the flywheel speed feedback (TIM2 encoder) and the hardware PWM endpoints (TIM3/TIM1). Stage 5 consumes that encoder feedback in the outer velocity loop, computes a torque command via the cascade PIDs, and writes it to TIM3 CH1 (plus DIR) to generate the reaction torque that keeps the bike upright.</p>
 
-        <h5>Stage 4a: Flywheel speed feedback (TIM2 in encoder mode)</h5>
-        <p>MX_TIM2_Init() sets quadrature mode TIM_ENCODERMODE_TI12, with input filters and a large period (50000) to avoid overflow; it is started in encoder mode.</p>
-        <p>readEncoderValue() reads counter, zeros it, and remaps wraparound for direction symmetry (via EncoderManage). Result in encoderINFO.mainNumberValue.</p>
+        <h4>Stage 4a: Flywheel speed feedback (TIM2 in encoder mode)</h4>
+        <ul>
+          <li>MX_TIM2_Init() sets quadrature mode TIM_ENCODERMODE_TI12, with input filters and a large period (50000) to avoid overflow; it is started in encoder mode.</li>
+          <li>readEncoderValue() reads counter, zeros it, and remaps wraparound for direction symmetry (via EncoderManage). Result in encoderINFO.mainNumberValue.</li>
+        </ul>
         <p>Concept: Every 5 ms, the IMU is fused to get roll angle and roll rate. Encoder-delta from TIM2 gives the instantaneous flywheel speed change. This prevents long-term momentum build-up via the outer velocity loop.</p>
 
-        <h5>Stage 4b: PWM for motors; servo timing (TIM3/TIM1)</h5>
-        <p>TIM3 configured for PWM: PSC=8−1, ARR=2000−1; CH1 (balancing motor), CH2 (aux motor).</p>
-        <p>TIM1 CH1 drives the steering servo; comments document 0.5–2.5 ms pulse mapping (5–25 compare counts).</p>
-        <p>Timer wiring: TIM3 is configured as PWM with PSC=8−1, ARR=2000−1; CH1 and CH2 are enabled and post-initialized to PA6 and PA7.</p>
-        <p>The 3-loop controller runs:</p>
+        <h4>Stage 4b: PWM for motors; servo timing (TIM3/TIM1)</h4>
+
         <ul>
-          <li>Velocity loop (encoder) → produces a bias (desired angle).</li>
-          <li>Angle loop (roll) → produces desired roll-rate.</li>
-          <li>Rate loop (gyro) → produces Motor1.out (torque command).</li>
+          <li>
+            TIM3 configured for PWM: PSC=8−1, ARR=2000−1; CH1 (balancing motor), CH2 (aux motor).
+          </li>
+          <li>
+            TIM1 CH1 drives the steering servo; comments document 0.5–2.5 ms pulse mapping (5–25 compare counts).
+          </li>
+          <li>
+            <b>Timer wiring:</b> TIM3 is configured as PWM with PSC=8−1, ARR=2000−1; CH1 and CH2 are
+            enabled and post-initialized to PA6 and PA7.
+          </li>
+          <li>
+            The 3-loop controller runs:
+            <ul>
+              <li>Velocity loop (encoder) → produces a bias (desired angle).</li>
+              <li>Angle loop (roll) → produces desired roll-rate.</li>
+              <li>Rate loop (gyro) → produces Motor1.out (torque command).</li>
+            </ul>
+          </li>
+          <li>
+            _controller_output() converts that to direction + PWM on TIM3 CH1 (flywheel motor). It also manages
+            the aux motor (TIM3 CH2) and steering servo (TIM1 CH1).
+          </li>
+          <li>
+            Safety: if roll exceeds ~20°, outputs are nulled, aux motor disabled, PID integrals cleared
+          </li>
         </ul>
-        <p>_controller_output() converts that to direction + PWM on TIM3 CH1 (flywheel motor). It also manages the aux motor (TIM3 CH2) and steering servo (TIM1 CH1).</p>
-        <p>Safety: if roll exceeds ~20°, outputs are nulled, aux motor disabled, PID integrals cleared</p>
-        <p>Concept: PWM duty maps the controller’s torque command to H-bridge voltage; servo is separate (steering). The controller compares values directly to each tick.</p>
+
+        <p>
+          Concept: PWM duty maps the controller’s torque command to H-bridge voltage; servo is separate
+          (steering). The controller compares values directly to each tick.
+        </p>
+
 
         <h4>Stage 5: Control and Actuation (Controller; PID)</h4>
         <p>This stage focuses on the control of the main servo motors in the rc-bike (flywheel, steering, linear motion) via cascade PID (reads data from 3 loops in sequence, with different PID coefficients applied at the ends of different loops, thereby cascading the output). Feedback is received every 5ms, allowing the servo motors to adjust their actuation accordingly to ensure the bike regains balance as soon as possible.  </p>
 
-        <h5>Stage 5a: PID library (pid.c/.h) — generic math engine</h5>
+        <p><u>Stage 5a: PID library (pid.c/.h) — generic math engine</u></p>
         <ul>
           <li>Three instances (_ALL_PID all): velocity, angle, rate.</li>
           <li>Central parameter table:</li>
-          <li>Angle: Kp=7.5, Ki=0, Kd=0, Imax=550, Umax=2000</li>
-          <li>Velocity: Kp=0.068, Ki=5e-5, Kd=0.055, Imax=500, Umax=2000</li>
-          <li>Rate: Kp=26.5, Ki=0, Kd=0, Imax=500, Umax=2000</li>
+          <ul>
+            <li>Angle: Kp=7.5, Ki=0, Kd=0, Imax=550, Umax=2000</li>
+            <li>Velocity: Kp=0.068, Ki=5e-5, Kd=0.055, Imax=500, Umax=2000</li>
+            <li>Rate: Kp=26.5, Ki=0, Kd=0, Imax=500, Umax=2000</li>
+          </ul>
           <li>pid_controller() (per tick):<br /> err = expect − feedback;<br /> integral += ki*err; (clamped ±Imax)<br /> out = kp*err + integral + kd*(err − err_last); (clamped ±Umax)</li>
         </ul>
         <p>Note: Ki/Kd are per-tick scalings (no explicit Ts in the code), so changing the loop period requires retuning those terms.</p>
 
-        <h5>Stage 5b: Controller (controller.c/.h) — orchestration + safety + IO</h5>
+        <p><u>Stage 5b: Controller (controller.c/.h) — orchestration + safety + IO</u></p>
         <p>Each 5 ms tick (_controller_perform → _controller_output)</p>
-        <ul>
-          <li>Velocity loop (outer)</li>
-          <li>expect = 0 (hold speed)</li>
-          <li>feedback = encoderINFO.mainNumberValue (counts/5 ms)</li>
-          <li>Output → desired angle (deg).</li>
-          <li>Angle loop (middle)</li>
-          <li>expect = vel.out</li>
-          <li>feedback = -att.rol (deg)</li>
-          <li>Output → desired roll-rate (deg/s).</li>
-          <li>Rate loop (inner)</li>
-          <li>expect = angle.out</li>
-          <li>feedback = -Mpu.deg_s.y (deg/s)</li>
-          <li>Output → motor torque command (signed).</li>
-          <li>Safety gates and actuation</li>
-          <li>Fall-down detect: |roll| &gt; ~20° → disable torque, clear integrators, latch restart.</li>
-          <li>Posture gate: reasonable accel-Z and |roll| ≤ 20° before enabling torque.</li>
-          <li>Map sign to DIR (H-bridge); magnitude to TIM3 CH1 PWM (0…2000).</li>
-          <li>Aux motor and servo steering handled concurrently (Bluetooth rocker inputs).</li>
-        </ul>
+
+        <ol>
+          <li>
+            Velocity loop (outer)
+            <ul>
+              <li>expect = 0 (hold speed)</li>
+              <li>feedback = encoderINFO.mainNumberValue (counts/5 ms)</li>
+              <li>Output → desired angle (deg).</li>
+            </ul>
+          </li>
+
+          <li>
+            Angle loop (middle)
+            <ul>
+              <li>expect = vel.out</li>
+              <li>feedback = -att.rol (deg)</li>
+              <li>Output → desired roll-rate (deg/s).</li>
+            </ul>
+          </li>
+
+          <li>
+            Rate loop (inner)
+            <ul>
+              <li>expect = angle.out</li>
+              <li>feedback = -Mpu.deg_s.y (deg/s)</li>
+              <li>Output → motor torque command (signed).</li>
+            </ul>
+          </li>
+
+          <li>
+            Safety gates and actuation
+            <ul>
+              <li>Fall-down detect: |roll| &gt; ~20° → disable torque, clear integrators, latch restart.</li>
+              <li>Posture gate: reasonable accel-Z and |roll| ≤ 20° before enabling torque.</li>
+              <li>Map sign to DIR (H-bridge); magnitude to TIM3 CH1 PWM (0…2000).</li>
+              <li>Aux motor and servo steering handled concurrently (Bluetooth rocker inputs).</li>
+            </ul>
+          </li>
+        </ol>
+
       </div>
     </div>
 
@@ -1882,49 +1961,13 @@
         <h3>Experiment 2A</h3>
 
         <h5>Results</h5>
-        <table-component subtitle="Results – Experiment 2A">
-          <table>
-            <thead>
-              <tr>
-                <th>Mass/g</th>
-                <th>Steady-state/°</th>
-                <th>Settling time/count*</th>
-                <th>Settling time/s</th>
-                <th>Max Overshoot</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>-2.29</td>
-                <td>67</td>
-                <td>3.35</td>
-                <td>0.12</td>
-              </tr>
-              <tr>
-                <td>21.6</td>
-                <td>-2.18</td>
-                <td>83</td>
-                <td>4.15</td>
-                <td>0.15</td>
-              </tr>
-              <tr>
-                <td>43.2</td>
-                <td>-2.23</td>
-                <td>100</td>
-                <td>5</td>
-                <td>0.17</td>
-              </tr>
-              <tr>
-                <td>52.4</td>
-                <td>-2.215</td>
-                <td>208</td>
-                <td>10.4</td>
-                <td>0.245</td>
-              </tr>
-            </tbody>
-          </table>
-        </table-component>
+        
+        <image-component
+          tag="exp2a-results"
+          source="assets/exp2a-results.png"
+          subtitle=""
+        ></image-component>
+       
 
         <!--
         <image-component
@@ -1995,49 +2038,13 @@
         <h3>Experiment 2B</h3>
 
         <h5>Results</h5>
-        <table-component subtitle="Results – Experiment 2B">
-          <table>
-            <thead>
-              <tr>
-                <th>Mass/g</th>
-                <th>Steady-state/°</th>
-                <th>Settling time/count</th>
-                <th>Settling time/s</th>
-                <th>Max overshoot/°</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>-2.29</td>
-                <td>67</td>
-                <td>3.35</td>
-                <td>0.12</td>
-              </tr>
-              <tr>
-                <td>10.8</td>
-                <td>-2.96</td>
-                <td>158</td>
-                <td>7.9</td>
-                <td>0.4</td>
-              </tr>
-              <tr>
-                <td>21.6</td>
-                <td>-3.55</td>
-                <td>183</td>
-                <td>9.15</td>
-                <td>0.65</td>
-              </tr>
-              <tr>
-                <td>32.4</td>
-                <td>-3.93</td>
-                <td>192</td>
-                <td>9.6</td>
-                <td>1.9</td>
-              </tr>
-            </tbody>
-          </table>
-        </table-component>
+        
+        <image-component
+          tag="exp2b-results"
+          source="assets/exp2b-results.png"
+          subtitle=""
+        ></image-component>
+       
 
         <!--
         <image-component
@@ -2108,91 +2115,30 @@
         <h3>Experiment 2C</h3>
 
         <h5>Results</h5>
-        <table-component subtitle="Results – Experiment 2C (Force and Torque)">
-          <table>
-            <thead>
-              <tr>
-                <th>Ჶ/°</th>
-                <th>𝜃/°</th>
-                <th>Force/N</th>
-                <th>Torque/N m</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>50.4</td>
-                <td>39.6</td>
-                <td>0.27</td>
-                <td>0.0743</td>
-              </tr>
-              <tr>
-                <td>45.4</td>
-                <td>44.6</td>
-                <td>0.296</td>
-                <td>0.0818</td>
-              </tr>
-              <tr>
-                <td>39</td>
-                <td>51</td>
-                <td>0.329</td>
-                <td>0.0906</td>
-              </tr>
-            </tbody>
-          </table>
-        </table-component>
+        
+        <image-component
+          tag="exp2c-results1"
+          source="assets/exp2c-results1.png"
+          subtitle=""
+        ></image-component>
+       
 
-        <table-component subtitle="Results – Experiment 2C (Torque vs response)">
-          <table>
-            <thead>
-              <tr>
-                <th>Torque/N m</th>
-                <th>Steady-state/°</th>
-                <th>Settling time/count</th>
-                <th>Settling time/s</th>
-                <th>Max overshoot/°</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0.0743</td>
-                <td>-2.20</td>
-                <td>100</td>
-                <td>5</td>
-                <td>2.8</td>
-              </tr>
-              <tr>
-                <td>0.0818</td>
-                <td>-2.30</td>
-                <td>117</td>
-                <td>5.85</td>
-                <td>4.6</td>
-              </tr>
-              <tr>
-                <td>0.0906</td>
-                <td>-2.25</td>
-                <td>200</td>
-                <td>10</td>
-                <td>6.75</td>
-              </tr>
-            </tbody>
-          </table>
-        </table-component>
+        
+        <image-component
+          tag="exp2c-results2"
+          source="assets/exp2c-results2.png"
+          subtitle=""
+        ></image-component>
+       
 
         <h5>Parameters used</h5>
-        <table-component subtitle="Parameters used – Experiment 2C">
-          <table>
-            <tbody>
-              <tr>
-                <td>String</td>
-                <td>27.5cm</td>
-              </tr>
-              <tr>
-                <td>Pendulum (4x M10 nuts)</td>
-                <td> 43.2g</td>
-              </tr>
-            </tbody>
-          </table>
-        </table-component>
+        
+        <image-component
+          tag="exp2c-params"
+          source="assets/exp2c-params.png"
+          subtitle=""
+        ></image-component>
+       
 
         <!--
         <image-component
@@ -2251,12 +2197,12 @@
       <div id="appendix-f-test-2d">
         <h3>Test 2D: Change in CG Height</h3>
 
-        <h5>Rationale</h5>
+        <h4>Rationale</h4>
         <p>
           To evaluate how variations in the bike’s vertical CG affect the stability margin and settling characteristics of the self-balancing system. Raising the CG increases overturning moment and tests the controller’s robustness under reduced stability.
         </p>
 
-        <h5>Steps</h5>
+        <h4>Steps</h4>
         <ol>
           <li>Attach an overhead brace securely above the side protrusions to serve as a raised platform.</li>
           <li>Mount additional weights on the brace to elevate the CG relative to the baseline configuration.</li>
@@ -2264,19 +2210,19 @@
           <li>Record settling time, overshoot and neutralisation time for each CG height.</li>
         </ol>
 
-        <h5>Equipment</h5>
+        <h4>Equipment</h4>
         <p>Overhead brace, modular weights, IMU, data logger.</p>
       </div>
 
       <div id="appendix-f-test-2e">
         <h3>Test 2E: Forward and Backward Motion</h3>
 
-        <h5>Rationale</h5>
+        <h4>Rationale</h4>
         <p>
           To assess the system’s ability to maintain balance under linear acceleration and deceleration, replicating the transition between stationary and low-speed motion.
         </p>
 
-        <h5>Steps</h5>
+        <h4>Steps</h4>
         <ol>
           <li>Place the RC bike on a flat, movable surface.</li>
           <li>Initialise the self-balancing controller and allow the bike to stabilise. Gradually tilt the surface from one end to simulate forward motion; repeat in the reverse direction.</li>
@@ -2284,19 +2230,19 @@
           <li>Record roll angle and reaction wheel response throughout the motion.</li>
         </ol>
 
-        <h5>Equipment</h5>
+        <h4>Equipment</h4>
         <p>Movable surface/box, inclinometer, IMU, data logger.</p>
       </div>
 
       <div id="appendix-f-test-2f">
         <h3>Test 2F: CG Deviation Simulation (Flexible Mast)</h3>
 
-        <h5>Rationale</h5>
+        <h4>Rationale</h4>
         <p>
           To investigate how real-time lateral or vertical CG shifts, representing rider movement affect balance stability and controller responsiveness.
         </p>
 
-        <h5>Steps</h5>
+        <h4>Steps</h4>
         <ol>
           <li>Install a raised flexible mast or brace capable of carrying small adjustable weights.</li>
           <li>Configure the weights to move laterally or vertically to simulate rider lean and posture change.</li>
@@ -2304,19 +2250,19 @@
           <li>Log roll angle and control response to determine sensitivity to CG variation.</li>
         </ol>
 
-        <h5>Equipment</h5>
+        <h4>Equipment</h4>
         <p>Flexible mast/brace, modular sliding weights, IMU, data logger, bump strip.</p>
       </div>
 
       <div id="appendix-f-test-2g">
         <h3>Test 2G: Road Condition and Disturbance Test</h3>
 
-        <h5>Rationale</h5>
+        <h4>Rationale</h4>
         <p>
           To evaluate robustness of the self-balancing system under unpredictable environmental conditions such as bumps, side winds, and uneven surfaces.
         </p>
 
-        <h5>Steps</h5>
+        <h4>Steps</h4>
         <ol>
           <li>Construct an obstacle course including bumps, rough surfaces, low-friction zones, and mild side-slopes.</li>
           <li>Operate the RC bike under different CG configurations (with rider, without rider).</li>
@@ -2324,42 +2270,19 @@
           <li>Record roll angle, neutralisation time, and failure rate across conditions.</li>
         </ol>
 
-        <h5>Equipment</h5>
+        <h4>Equipment</h4>
         <p>Custom obstacle course (rubber strips, tiles, mats, slope wedges, fan), IMU, data logger.</p>
       </div>
 
       <div id="appendix-f-test-3">
-        <h3>Test 3: Full-scale bicycle testing</h3>
+        <h3>Test 3: Hardware-in-the-Loop (HIL) Simulation</h3>
 
-        <div id="appendix-f-test-3a">
-          <h4>Test 3A: Rider Steering Coexistence Map</h4>
-
-          <h5>Rationale</h5>
-          <p>
-            To evaluate how the control system interacts with rider steering inputs and determine thresholds for smooth, non-intrusive assistance.
-          </p>
-
-          <h5>Steps</h5>
-          <ol>
-            <li>Equip handlebars with torque sensors to measure rider steering effort.</li>
-            <li>Conduct controlled tests where the rider performs small steering inputs during stationary balance, start-up, and stopping.</li>
-            <li>Record steering torque, lean rate, and controller output.</li>
-            <li>Generate a coexistence map correlating rider input magnitude with controller intervention.</li>
-          </ol>
-
-          <h5>Equipment</h5>
-          <p>Handlebar torque sensor, IMU, microcontroller with selectable modes, data logger, safety tether.</p>
-        </div>
-
-        <div id="appendix-f-test-3b">
-          <h4>Test 3B: Hardware-in-the-Loop (HIL) Simulation</h4>
-
-          <h5>Rationale</h5>
+          <h4>Rationale</h4>
           <p>
             To test and refine the control algorithm safely in a simulated environment before full-scale deployment. This allows parameter tuning without hardware risks.
           </p>
 
-          <h5>Steps</h5>
+          <h4>Steps</h4>
           <ol>
             <li>Interface the MCU with a computer-based dynamic model of the bike’s roll motion via UART.</li>
             <li>Simulate disturbances, CG variations, and speed profiles while the MCU executes real-time control.</li>
@@ -2367,32 +2290,13 @@
             <li>Adjust control parameters based on observed discrepancies.</li>
           </ol>
 
-          <h5>Equipment</h5>
+          <h4>Equipment</h4>
           <p>MCU, laptop with dynamic simulation software (MATLAB/Simulink or Python).</p>
         </div>
 
-        <div id="appendix-f-test-3c">
-          <h4>Test 3C: Human-in-the-Loop Rider Trials</h4>
-
-          <h5>Rationale</h5>
-          <p>
-            To assess real-world rider interaction, comfort, and perceived control intrusiveness of the self-balancing system.
-          </p>
-
-          <h5>Steps</h5>
-          <ol>
-            <li>Conduct tests under three conditions: riderless, stationary rider, and moving rider.</li>
-            <li>For each condition, test during stationary balance, start-up, and stopping phases.</li>
-            <li>Record IMU, steering torque, and controller output data.</li>
-            <li>Collect rider feedback to identify intrusive or delayed control behaviour.</li>
-            <li>Adjust assist mode parameters based on rider response.</li>
-          </ol>
-
-          <h5>Equipment</h5>
-          <p>Weighted brace or rig, handlebar torque sensor, IMU, data logger, safety gear.</p>
-        </div>
       </div>
     </div>
+
 
     
     <div id="references" class="references">
