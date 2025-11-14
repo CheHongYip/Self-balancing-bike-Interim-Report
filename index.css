@@ -23,16 +23,3 @@ h5 {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
-
-/* .figure-7-iwp-model {
-  This image will now only take up 50% of the content width (e.g., 400px) 
-  width: 50%; 
-  /* Center it on the page
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Ensure the image *inside* that specific component follows the new width 
-.figure-7-iwp-model img {
-  width: 100%; /* Makes the inner image fill the 50% width container 
-} */
