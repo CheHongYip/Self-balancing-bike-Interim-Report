@@ -58,6 +58,12 @@
     <div class="table-of-content">
       <h2>Table of Contents</h2>
       <sl-tree>
+
+        <!-- Acknowledgements -->
+        <sl-tree-item expanded>
+          <a href="#acknowledgements">Acknowledgements.</a>
+        </sl-tree-item>
+
         <!-- 1. Introduction -->
         <sl-tree-item expanded>
           <a href="#section-header-1">1. Introduction</a>
@@ -276,11 +282,40 @@
 
 
 
+    <br />
+    <br />
     <sl-divider></sl-divider>
 
     <div>
 
     <div>
+
+      <div id="acknowledgements">
+        <h2>Acknowledgements</h2>
+
+        <p>
+          Our current progress in this CDE4301 capstone project has been made possible through the efforts 
+          and support provided by various individuals and organisations.
+        </p>
+
+        <p>
+          <h3>Project Supervisor:</h3> 
+          We are profoundly grateful to Mr Lim Hong Wee for his invaluable guidance, mentorship and 
+          unwavering support. His efforts have been instrumental in helping us achieve the progress 
+          that we have made in this project thus far.
+        </p>
+
+        <p>
+          <h3>Industry Partner:</h3> 
+          We thank Mr Sun ChunLei (CEO Red Dot Mobility) for his efforts in supporting our project thus far.
+        </p>
+      </div>
+
+
+    <br />
+    <br />
+    <sl-divider></sl-divider>
+      
       <!-- === SECTION 1: INTRODUCTION === -->
       <div id="section-header-1">
         <h2>1. Introduction</h2>
@@ -500,22 +535,22 @@
         ></image-component>
         -->
 
-        <h5>1. Enhanced ABS</h5>
+        <p><u>1. Enhanced ABS</u></p>
         <p>
           ABS are installed in most motorcycles today, providing better safety and stability in dynamic situations through lean and pitch angle-dependent braking control. Although highly effective at maintaining stability at high speeds and preserving traction during cornering, ABS are less effective at low speeds due to weak sensor signals which may result in unwanted ABS activation<sup>[8]</sup>. As such, most ABS automatically cut-off below speeds of 10–20&nbsp;km/h<sup>[9]</sup>, thus for this project we will not be considering ABS as a low-speed stability method.
         </p>
 
-        <h5>2. Three-wheeled bikes</h5>
+        <p><u>2. Three-wheeled bikes</u></p>
         <p>
           These show improved static stability as well as weave stability over two-wheeled bikes, but in certain situations such as under low-speed, tight-turn conditions, the dynamic behavior (stability and response characteristics) of a three-wheeler becomes very similar to that of a two-wheeler<sup>[10]</sup>. Moreover, three-wheelers deviate from the traditional design and riding experience valued by two-wheeler enthusiasts. In line with this, our industry partner whose product range is centred on two-wheelers intends to pursue stability solutions without shifting towards a three-wheeler configuration.
         </p>
 
-        <h5>3. AMSAS</h5>
+        <p><u>3. AMSAS</u></p>
         <p>
           Mechanisms that alter and assist in steering input to provide steering assist input at low speed<sup>[11]</sup> show promise in research prototypes but introduce mechanical complexity and are not yet production-ready. As AMSAS relies on wheel movement and steering to improve stability, it becomes less effective at a stop.
         </p>
 
-        <h5>4. Gyroscopic systems</h5>
+        <p><u>4. Gyroscopic systems</u></p>
         <p>
           Imbalances are addressed by high-speed rotating discs with gimbal actuation, providing immediate active correction at lower speeds. However, the system consumes a lot of power to maintain the high rotational speeds and precision rates.<sup>[12]</sup>
         </p>
@@ -578,27 +613,27 @@
           This section provides a brief overview of our selection; for a more in-depth explanation and comparison see Appendix C.
         </p>
 
-        <h5>Sensing</h5>
+        <p><u>Sensing</u></p>
         <p>
           The sensing subsystem uses a combination of an IMU and a rotary encoder mounted on the inertia wheel shaft. The IMU measures roll angle and angular velocity<sup>[19]</sup>, while the encoder provides accurate feedback of the wheel’s angular position and speed<sup>[20]</sup>. This configuration offers the best balance between responsiveness<sup>[21]</sup> and signal quality, ensuring low latency and high reliability without introducing significant calibration complexity.
         </p>
 
-        <h5>Control</h5>
+        <p><u>Control</u></p>
         <p>
           A PID controller was selected for the self-balancing system due to its performance, ease of implementation, and stability under variable operating conditions. The controller consists of three nested loops: an inner current/torque loop, a middle velocity loop, and an outer angle loop<sup>[25]</sup>.
         </p>
 
-        <h5>Actuation</h5>
+        <p><u>Actuation</u></p>
         <p>
           A BLDC motor was selected to drive the inertia wheel due to its high torque density, fast dynamic response, and superior efficiency compared to a BDC motor<sup>[29]</sup>. In a self-balancing application, the ability to generate rapid, precise torque corrections is highly critical.
         </p>
 
-        <h5>Power</h5>
+        <p><u>Power</u></p>
         <p>
           The power subsystem uses an isolated DC-DC converter connected to the main battery of the motorcycle. This allows the self-balancing system to share the existing power source while maintaining electrical isolation from the high-current drive system.
         </p>
 
-        <h5>Mechanism</h5>
+        <p><u>Mechanism</u></p>
         <p>
           The IWP configuration was selected as the mechanical basis of the self-balancing system due to its mechanical simplicity, compact size and well-studied control behaviour (explained in greater detail in Section 5.2). The IWP generates corrective torque by accelerating or decelerating a flywheel mounted along the roll axis, counteracting the lean angle of the bike<sup>[24]</sup>.
         </p>
@@ -719,7 +754,7 @@
         ></image-component>
         -->
 
-        <h5>PID Tuning</h5>
+        <p><u>PID Tuning</u></p>
         <p>
           In the context of this self-balancing system, the PID controller receives real-time tilt angle and angular velocity data from the IMU and the motor encoder, and computes the appropriate control signal to drive the BLDC motor. The motor torque output is adjusted to counteract the tilt and maintain balance.
         </p>
@@ -729,7 +764,12 @@
       </div>
     </div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
     <div>
+      <!-- 6. Prototyping -->
       <div id="section-header-6">
         <h2>6. Prototyping</h2>
       </div>
@@ -741,11 +781,11 @@
         <p>
           The prototype we chose was carefully selected with the following considerations:
         </p>
-        <ul>
+        <ol>
           <li>Bike model capable of simple movement controls</li>
           <li>IWP-enabled self-balancing</li>
           <li>Open-source code</li>
-        </ul>
+        </ol>
       </div>
 
       <!-- 6.2 Hardware Design Specifications and Features -->
@@ -778,7 +818,7 @@
         ></image-component>
         -->
 
-        <h5>Overview</h5>
+        <p><u>Overview</u></p>
         <p>
           The control stack is built around an STM32 MCU, a 6-axis IMU for tilt sensing, and a rotary encoder on the reaction wheel for inner-loop torque control. Actuation comprises a BLDC reaction-wheel motor with ESC for roll stabilisation, a steering servo, and a small N20 geared DC motor for forward and reverse. A multi-rail power system feeds logic and power loads. Bluetooth and USB-UART provide data, tuning and control. Refer to Appendix D for further details.
         </p>
@@ -797,7 +837,7 @@
           Analysis of the RC-bike’s provided code architecture was conducted to understand how its key functions and self-balancing mechanism were programmed. We identified and distilled its core workflow into 5 stages. Detailed explanations are in Appendix D.
         </p>
 
-        <h5>Stage 1: Boot and Firmware Start-up (main.c)</h5>
+        <p><u>Stage 1: Boot and Firmware Start-up (main.c)</u></p>
         <p>
           This stage configures the RC-bike’s firmware at startup, namely sensing (IMU), actuation (PWM/servo), and timing (FreeRTOS + timers). At reset, the MCU initializes the HAL, clocks, peripherals and motor drivers, then starts the PWM channels, Soft-I2C and the sensing/control stack before moving into FreeRTOS.
         </p>
@@ -810,7 +850,7 @@
         ></image-component>
         -->
 
-        <h5>Stage 2: Real-time Loop Orchestration (FreeRTOS.c/.h)</h5>
+        <p><u>Stage 2: Real-time Loop Orchestration (FreeRTOS.c/.h)</u></p>
         <p>
           FreeRTOS refers to the RC-bike’s real-time operating system, which executes a series of 6 tasks in a 5&nbsp;ms loop (200&nbsp;Hz). Specifically, StartSensorSampleTask handles the self-balancing pipeline, which performs: 
           data acquisition → filtering → state estimation → feedback readout → cascade PID control → actuation → calibration.
@@ -824,7 +864,7 @@
         ></image-component>
         -->
 
-        <h5>Stage 3: Sensing and State Estimation (IMU, MPU6050, IMATH, Filter)</h5>
+        <p><u>Stage 3: Sensing and State Estimation (IMU, MPU6050, IMATH, Filter)</u></p>
         <p>
           This stage encompasses data sensing and preliminary processing. The MPU6050 sensor reads raw data every tick (5&nbsp;ms) for three parameters: roll angle, speed (linear velocity), and angular velocity. These three raw data categories undergo processing in IMU.c (unit conversion, filtering) and are then held in vector structures (matrices) for historical reference for feedback control. It uses IMATH.c and Filter.c as program libraries.
         </p>
@@ -837,7 +877,7 @@
         ></image-component>
         -->
 
-        <h5>Stage 4: Wheel Motion Feedback and Timing</h5>
+        <p><u>Stage 4: Wheel Motion Feedback and Timing</u></p>
         <p>
           A quadrature encoder is a rotary sensor wired to a time counter that measures flywheel motor position, speed and direction each 5&nbsp;ms loop via generating two 90° out-of-phase square waves (A and B). Edge transitions determine direction and displacement.
         </p>
@@ -862,7 +902,7 @@
         ></image-component>
         -->
 
-        <h5>Stage 5: Control and Actuation</h5>
+        <p><u>Stage 5: Control and Actuation</u></p>
         <p>
           The last stage handles cascade PID, motor control and safety. The 3-loop controller performs corrective actions sequentially every 5&nbsp;ms (velocity → angle → rate). In each loop, PID coefficients are applied to transform the input data. The controller maps the final reaction torque command (sets correct direction and magnitude) to the PWM timers to update the servo motors’ outputs to balance the bike.
         </p>
@@ -887,7 +927,7 @@
           Several software tools were used in programming the RC bike, as outlined below:
         </p>
 
-        <h5>Mahony Filter</h5>
+        <p><u>Mahony Filter</u></p>
         <p>
           A nonlinear complementary filter<sup>[38]</sup> for estimating orientation using IMU data. It fuses gyroscope (angular velocity) and accelerometer (gravity/acceleration). The algorithm outputs orientation as a quaternion, correcting gyroscope bias (difference between predicted vs expected values) via a proportional–integral (PI) control law.
         </p>
@@ -900,7 +940,7 @@
         ></image-component>
         -->
 
-        <h5>DCM and DCM_T (Direction Cosine Matrix)</h5>
+        <p><u>DCM and DCM_T (Direction Cosine Matrix)</u></p>
         <p>
           DCM is a 3×3 orthogonal matrix<sup>[40]</sup> representing rotation between coordinate frames. Derived from the Mahony quaternion, it transforms angular rate and gravity vectors (x, y, z) from the bike’s frame to the earth (world) frame. DCM_T, its transpose matrix, maps world-frame data back to the body frame, used here for predicted vs gravity adjustments and sensor correction.
         </p>
@@ -913,7 +953,7 @@
         ></image-component>
         -->
 
-        <h5>Butterworth Low-Pass Filters (IIR)</h5>
+        <p><u>Butterworth Low-Pass Filters (IIR)</u></p>
         <p>
           Butterworth LPFs attenuate high-frequency noise while preserving low-frequency signals with minimal 
           distortion.<sup>[42]</sup> As IIR filters, they use feedback and past inputs/outputs, defined by parameters like order and cutoff frequency. They are applied to sensor data, including encoder outputs, for signal smoothing.
@@ -927,7 +967,7 @@
         ></image-component>
         -->
 
-        <h5>Cascade PID Control</h5>
+        <p><u>Cascade PID Control</u></p>
         <p>
           Typically a 2/3-loop PID system: velocity → angle → rate loops. Each loop applies proportional (K<sub>p</sub>), integral (K<sub>i</sub>) and derivative (K<sub>d</sub>) control laws to improve data accuracy<sup>[44]</sup>.
         </p>
@@ -962,6 +1002,11 @@
 
     <div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
+      <!-- 7. Testing -->
       <div id="section-header-7">
         <h2>7. Testing</h2>
       </div>
@@ -973,19 +1018,19 @@
         <p>
           Testing was conducted to evaluate the limits of the self-balancing mechanism and determine:
         </p>
-        <ul>
+        <ol>
           <li>Disturbance responsiveness</li>
           <li>Disturbance neutralisation performance</li>
           <li>Scalability of system</li>
-        </ul>
+        </ol>
 
         <p>
           Tests were designed to identify certain key parameters and limit thresholds of the bike’s self-balancing mechanism:
         </p>
-        <ul>
-          <li>Test 1: Find CG of bike</li>
-          <li>Test 2: Find acceptable limits to applied weight, weight distribution and lateral forces</li>
-        </ul>
+        <p>
+          Test 1: Find CG of bike<br>
+          Test 2: Find acceptable limits to applied weight, weight distribution and lateral forces
+        </p>
       </div>
 
       <!-- 7.2 Rationale of Equipment -->
@@ -1055,7 +1100,7 @@
       <div id="sub-section-7-2-2">
         <h4>7.2.2 Test 2: Weight</h4>
 
-        <h5>Test 2A: Weight Limit</h5>
+        <h4>Test 2A: Weight Limit</h4>
         <p>
           This test simulates real-world weight variations from the rider and cargo to evaluate the self-balancing system’s robustness under different load conditions.
         </p>
@@ -1099,7 +1144,7 @@
           The results show that the RC bike remains stable as symmetric load increases, with the steady-state roll angle staying relatively consistent. Settling time rises gradually with heavier mass, indicating slower damping but no loss of stability. Max overshoot also increases slightly, though it remains small across all tested weights. Overall, the system handles added symmetrical loads well, maintaining control performance without significant drift or oscillatory behaviour.
         </p>
 
-        <h5>Test 2B: Unilateral Weight</h5>
+        <h4>Test 2B: Unilateral Weight</h4>
         <p>
           This test simulates uneven road conditions and rider lean to assess the self-balancing system’s robustness against non-uniform weight distribution.
         </p>
@@ -1206,6 +1251,11 @@
 
     <div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
+      <!-- 8. Fulfilment of Deliverables -->    
       <div id="section-header-8">
         <h2>8. Fulfilment of Deliverables</h2>
       </div>
@@ -1252,6 +1302,11 @@
 
     <div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
+      <!-- 9. Limitations, Shortcomings, and Improvements -->
       <div id="section-header-9">
         <h2>9. Limitations, Shortcomings, and Improvements</h2>
       </div>
@@ -1295,6 +1350,11 @@
 
     <div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
+      <!-- 10. Project Plan -->      
       <div id="section-header-10">
         <h2>10. Project Plan</h2>
       </div>
@@ -1331,6 +1391,10 @@
 
     </div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
     <div id="appendix-a">
       <h2>Appendix A: Interview Responses</h2>
 
@@ -1356,6 +1420,10 @@
         </ul>
       </div>
     </div>
+
+      <br />
+      <br />
+      <sl-divider></sl-divider>
 
     <div id="appendix-b">
       <h2>Appendix B: Industry Landscape</h2>
@@ -1423,6 +1491,10 @@
         </p>
       </div>
     </div>
+
+      <br />
+      <br />
+      <sl-divider></sl-divider>
 
     <div id="appendix-c">
       <h2>Appendix C: Concept Selection</h2>
@@ -1627,7 +1699,10 @@
       </div>
     </div>
 
-    
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+
     <div id="appendix-d">
       <h2>Appendix D: Hardware and Software</h2>
 
@@ -1956,6 +2031,9 @@
       </div>
     </div>
 
+      <br />
+      <br />
+      <sl-divider></sl-divider>
 
     <div id="appendix-e">
       <h2>Appendix E: Testing results</h2>
@@ -2193,7 +2271,10 @@
       </div>
     </div>
 
-
+      <br />
+      <br />
+      <sl-divider></sl-divider>
+      
     <div id="appendix-f">
       <h2>Appendix F: Future work</h2>
 
