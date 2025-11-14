@@ -25,15 +25,22 @@ h5 {
 }
 
 image-component {
-  max-width: 100%; /* Ensures the component scales down in small screens */
-  max-height: 300px;
-  height: auto;    /* Automatically calculates height to maintain aspect ratio */
-  width: auto; 
+  max-width: 100%; 
+  height: auto;    
+  display: block;  
+
+  /* --- ADDED/ADJUSTED: Consistent top and bottom margins --- */
+  margin-top: 2rem;    /* Adds space above the image */
+  margin-bottom: 2rem; /* Adds space below the image */
+  margin-left: auto;   /* Centers the image block */
+  margin-right: auto;  /* Centers the image block */
+  clear: both; 
 }
 
+/* Ensure the image inside fills the container without distortion */
 image-component img {
-  width: 100%;       /* Makes the image fill 100% of the component's width */
-  height: auto;      /* Prevents stretching */
+  width: 100%;       
+  height: auto;      
 }
 
 .figure-7-iwp-model {
