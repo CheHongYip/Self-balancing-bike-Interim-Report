@@ -738,7 +738,7 @@
           subtitle="Figure 8: DC motor model<sup>[36]</sup>"
         ></image-component>
         
-
+      <br />
 
         
         <image-component 
@@ -749,7 +749,8 @@
         
 
       </div>
-
+      
+      <br />
       <!-- 5.2.3 IWP model -->
       <div id="sub-section-5-2-3">
         <h4>5.2.3 IWP Model</h4>
@@ -773,7 +774,7 @@
           subtitle="Table 4: IWP parameters<sup>[36]</sup>"
         ></image-component>
 
-        
+      <br />
 
         
         <image-component 
@@ -782,7 +783,7 @@
           subtitle="Equation 2: Mathematical model of system"
         ></image-component>
         
-
+      <br />
         <p>
           All derivations can be found in Appendix C.
         </p>
@@ -874,7 +875,8 @@
         ></image-component>
         
       </div>
-
+      
+      <br />
       <!-- 6.2.2 Hardware -->
       <div id="sub-section-6-2-2">
         <h4>6.2.2 Hardware</h4>
@@ -907,7 +909,7 @@
         <p>
           Analysis of the RC-bike’s provided code architecture was conducted to understand how its key functions and self-balancing mechanism were programmed. We identified and distilled its core workflow into 5 stages. Detailed explanations are in Appendix D.
         </p>
-
+      <br />
         <p><u>Stage 1: Boot and Firmware Start-up (main.c)</u></p>
         <p>
           This stage configures the RC-bike’s firmware at startup, namely sensing (IMU), actuation (PWM/servo), and timing (FreeRTOS + timers). At reset, the MCU initializes the HAL, clocks, peripherals and motor drivers, then starts the PWM channels, Soft-I2C and the sensing/control stack before moving into FreeRTOS.
@@ -920,7 +922,7 @@
           subtitle="Figure 13: Main.c workflow"
         ></image-component>
   
-
+      <br />
         <p><u>Stage 2: Real-time Loop Orchestration (FreeRTOS.c/.h)</u></p>
         <p>
           FreeRTOS refers to the RC-bike’s real-time operating system, which executes a series of 6 tasks in a 5&nbsp;ms loop (200&nbsp;Hz). Specifically, StartSensorSampleTask handles the self-balancing pipeline, which performs: 
@@ -934,7 +936,7 @@
           subtitle="Figure 14: FreeRTOS.c workflow"
         ></image-component>
     
-
+      <br />
         <p><u>Stage 3: Sensing and State Estimation (IMU, MPU6050, IMATH, Filter)</u></p>
         <p>
           This stage encompasses data sensing and preliminary processing. The MPU6050 sensor reads raw data every tick (5&nbsp;ms) for three parameters: roll angle, speed (linear velocity), and angular velocity. These three raw data categories undergo processing in IMU.c (unit conversion, filtering) and are then held in vector structures (matrices) for historical reference for feedback control. It uses IMATH.c and Filter.c as program libraries.
@@ -947,7 +949,7 @@
           subtitle="Figure 15: IMU, MPU6050 workflow"
         ></image-component>
 
-
+      <br />
         <p><u>Stage 4: Wheel Motion Feedback and Timing</u></p>
         <p>
           A quadrature encoder is a rotary sensor wired to a time counter that measures flywheel motor position, speed and direction each 5&nbsp;ms loop via generating two 90° out-of-phase square waves (A and B). Edge transitions determine direction and displacement.
@@ -972,7 +974,7 @@
           subtitle="Figure 17: Encoder.c and Tim.c workflow"
         ></image-component>
    
-
+      <br />
         <p><u>Stage 5: Control and Actuation</u></p>
         <p>
           The last stage handles cascade PID, motor control and safety. The 3-loop controller performs corrective actions sequentially every 5&nbsp;ms (velocity → angle → rate). In each loop, PID coefficients are applied to transform the input data. The controller maps the final reaction torque command (sets correct direction and magnitude) to the PWM timers to update the servo motors’ outputs to balance the bike.
@@ -989,11 +991,11 @@
         ></image-component>
 
       </div>
-
+      <br />
       <!-- 6.3.2 Software Techniques -->
       <div id="sub-section-6-3-2">
         <h4>6.3.2 Software Techniques</h4>
-
+      <br />
         <p>
           Several software tools were used in programming the RC bike, as outlined below:
         </p>
@@ -1010,7 +1012,7 @@
           subtitle="Figure 19: Illustration of Mahony Filter [39]"
         ></image-component>
   
-
+      <br />
         <p><u>DCM and DCM_T (Direction Cosine Matrix)</u></p>
         <p>
           DCM is a 3×3 orthogonal matrix<sup>[40]</sup> representing rotation between coordinate frames. Derived from the Mahony quaternion, it transforms angular rate and gravity vectors (x, y, z) from the bike’s frame to the earth (world) frame. DCM_T, its transpose matrix, maps world-frame data back to the body frame, used here for predicted vs gravity adjustments and sensor correction.
@@ -1023,7 +1025,7 @@
           subtitle="Figure 20: Illustration of DCM [41]"
         ></image-component>
      
-
+      <br />
         <p><u>Butterworth Low-Pass Filters (IIR)</u></p>
         <p>
           Butterworth LPFs attenuate high-frequency noise while preserving low-frequency signals with minimal 
@@ -1037,7 +1039,7 @@
           subtitle="Figure 21: Illustration of Butterworth filter [43]"
         ></image-component>
      
-
+      <br />
         <p><u>Cascade PID Control</u></p>
         <p>
           Typically a 2/3-loop PID system: velocity → angle → rate loops. Each loop applies proportional (K<sub>p</sub>), integral (K<sub>i</sub>) and derivative (K<sub>d</sub>) control laws to improve data accuracy<sup>[44]</sup>.
@@ -1172,7 +1174,7 @@
           The results indicate that the RC bike’s CG distribution is comparable to that of a full-scale bike. The horizontal CG position is approximately mid-length (50/50 front–rear), while the vertical CG position lies around 55/45 top–bottom, reflecting a realistic mass distribution typical of actual bikes. This similarity in CG proportions suggests that the RC model exhibits representative dynamic behaviour, allowing its subsequent test results to be considered indicative of real-life performance<sup>[54]</sup>.
         </p>
       </div>
-
+      <br />
       <!-- 7.2.2 Test 2: Weight -->
       <div id="sub-section-7-2-2">
         <h4>7.2.2 Test 2: Weight</h4>
@@ -1220,7 +1222,8 @@
         <p>
           The results show that the RC bike remains stable as symmetric load increases, with the steady-state roll angle staying relatively consistent. Settling time rises gradually with heavier mass, indicating slower damping but no loss of stability. Max overshoot also increases slightly, though it remains small across all tested weights. Overall, the system handles added symmetrical loads well, maintaining control performance without significant drift or oscillatory behaviour.
         </p>
-
+        
+      <br />
         <h4>Test 2B: Unilateral Weight</h4>
         <p>
           This test simulates uneven road conditions and rider lean to assess the self-balancing system’s robustness against non-uniform weight distribution.
@@ -1265,10 +1268,11 @@
           The results show that the RC bike remains stable under unilateral loads, consistently returning to a new equilibrium with only a small steady-state lean (&lt;4°). Uneven mass increases settling time and overshoot, but the bike continues to stabilise even at the heaviest load tested. The sharp rise in overshoot at 32.4&nbsp;g suggests the system is approaching its control limits, indicating a practical unilateral-weight tolerance of roughly 20–30&nbsp;g before performance degradation becomes significant.
         </p>
       </div>
-
+      
+      <br />
       <!-- 7.2.3 Test 2C: Lateral Force -->
       <div id="sub-section-7-2-3">
-        <h4>7.2.3 Test 2C: Lateral Force</h4>
+        <h4>Test 2C: Lateral Force</h4>
 
         <p>
           This test simulates sudden real-world disturbances such as brief rider inattention or unexpected weight shifts by using a pendulum at varying angles to apply torque on the bike and evaluate its recovery response.
@@ -1281,7 +1285,7 @@
           subtitle="Figure 32: Set-up for Test 2C"
         ></image-component>
   
-
+      <br />
       
         <image-component 
           tag="image33"
@@ -1289,7 +1293,7 @@
           subtitle="Figure 33: Physical set-up for Test 2C"
         ></image-component>
      
-
+      <br />
         
         <image-component 
           tag="image38"
@@ -1314,7 +1318,7 @@
           real-world shocks.
         </p>
       </div>
-
+      <br />
       <!-- 7.4 Evaluation of Testing Methods -->
       <div id="sub-section-7-header-4">
         <h3>7.4 Evaluation of Testing Methods</h3>
