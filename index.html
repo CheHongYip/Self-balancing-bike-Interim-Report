@@ -52,7 +52,7 @@
 <body>
   <div class="content">
     <h3 style="text-align: center;"> Submitted by </h3>
-    <p style="text-align: center;"> Che Hong Yip <br>A02253122W</p>
+    <p style="text-align: center;"> Che Hong Yip <br>A0253122W</p>
     <p style="text-align: center;"> Tan Wern Kai, Elliott <br>A0252841H</p>
 
     <h3 style="text-align: center;"> Project Supervisor </h3>
@@ -484,7 +484,9 @@
       <div id="sub-section-2-header-3">
         <h3>2.3 Problem Statement</h3>
         <p>
+          <em>
           “HMW keep an e-bike upright hands-off at 0–10&nbsp;km/h in APAC stop-go traffic, so riders avoid tip-overs and fatigue without adding significant weight or range loss?”
+          </em>
         </p>
         <p>
           We aim to eliminate low-speed instability at less than 10&nbsp;km/h including standstill, via an on-board, active self-balancing system that maintains upright equilibrium without rider input.
@@ -737,6 +739,9 @@
         
       <br />
 
+        <p>
+          Motor torque τ is related to armature current ia by a motor torque constant Kt by,
+        </p>
         
         <image-component 
           tag="eqn1"
@@ -785,12 +790,13 @@
           All derivations can be found in Appendix C.
         </p>
       </div>
-
+      <br />
       <!-- 5.2.4 PID -->
       <div id="sub-section-5-2-4">
         <h4>5.2.4 PID</h4>
         <p>
-          A PID control signal has three controller parameters: proportional gain K<sub>p</sub>, integral gain K<sub>i</sub> and derivative gain K<sub>d</sub>.
+          A PID control signal has three controller parameters: proportional gain K<sub>p</sub>, integral gain K<sub>i</sub> and derivative gain K<sub>d</sub>. u(t) is the control signal and e(t) is the control error e(t) = r(t) − y(t).
+
         </p>
 
 
@@ -992,11 +998,11 @@
       <!-- 6.3.2 Software Techniques -->
       <div id="sub-section-6-3-2">
         <h4>6.3.2 Software Techniques</h4>
-      <br />
+
         <p>
           Several software tools were used in programming the RC bike, as outlined below:
         </p>
-
+      <br />
         <p><u>Mahony Filter</u></p>
         <p>
           A nonlinear complementary filter<sup>[38]</sup> for estimating orientation using IMU data. It fuses gyroscope (angular velocity) and accelerometer (gravity/acceleration). The algorithm outputs orientation as a quaternion, correcting gyroscope bias (difference between predicted vs expected values) via a proportional–integral (PI) control law.
@@ -1149,7 +1155,7 @@
           subtitle="Figure 25: Finding CG of bike"
         ></image-component>
         
-
+      <br />
         
         <image-component 
           tag="image43"
@@ -1196,7 +1202,7 @@
           subtitle="Figure 27: Physical set-up for Test 2A"
         ></image-component>
         
-
+      <br />
       
         <image-component 
           tag="image17"
@@ -1241,7 +1247,7 @@
           subtitle="Figure 30: Physical set-up for Test 2B"
         ></image-component>
    
-
+      <br />
      
         <image-component 
           tag="image16"
@@ -1679,6 +1685,7 @@
         <image-component 
           tag="eqn5"
           source="images/eqn5.png"
+          subtitle=""
         ></image-component>
         
 
@@ -1715,6 +1722,7 @@
         <image-component 
           tag="eqn6"
           source="images/eqn6.png"
+          subtitle="Equation 4: Kirchhoff’s second law"
         ></image-component>
     
 
@@ -1754,6 +1762,7 @@
         <image-component 
           tag="working"
           source="images/working.png"
+          subtitle="Equation 4: Kirchhoff’s second law"
         ></image-component>
         
 
@@ -1765,6 +1774,7 @@
         <image-component 
           tag="substituting"
           source="images/substituting.png"
+          subtitle="Equation 4: Kirchhoff’s second law"
         ></image-component>
     
 
