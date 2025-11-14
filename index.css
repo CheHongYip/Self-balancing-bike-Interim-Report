@@ -24,18 +24,6 @@ h5 {
   margin-bottom: 0.5rem;
 }
 
-image-component {
-  max-width: 100%; /* Ensures the component scales down in small screens */
-  max-height: 300px;
-  height: auto;    /* Automatically calculates height to maintain aspect ratio */
-  width: auto; 
-}
-
-image-component img {
-  width: 100%;       /* Makes the image fill 100% of the component's width */
-  height: auto;      /* Prevents stretching */
-}
-
 .figure-7-iwp-model {
   /* This image will now only take up 50% of the content width (e.g., 400px) */
   width: 50%; 
