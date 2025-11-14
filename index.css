@@ -26,7 +26,9 @@ h5 {
 
 image-component {
   max-width: 100%; /* Ensures the component scales down in small screens */
+  max-height: 300px;
   height: auto;    /* Automatically calculates height to maintain aspect ratio */
+  width: auto; 
   display: block;  /* Necessary for margin auto and width rules to apply correctly */
   margin: 1rem auto; /* Centers the image component within the content block */
 }
